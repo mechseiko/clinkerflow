@@ -1,0 +1,148 @@
+/**
+ * ILLUSTRATIVE DATA ONLY — For demonstration purposes
+ * Represents typical clinker-to-cement conversion plant flow
+ */
+
+import type { PlantStage, FlowConnection } from '../types';
+
+export const plantStages: PlantStage[] = [
+  {
+    id: 'clinker',
+    name: 'Clinker Store',
+    label: 'CLINKER',
+    status: 'operational',
+    throughput: 5_180,
+    targetThroughput: 5_500,
+    efficiency: 94.2,
+    description: 'Clinker storage and reclaim system. Clinker is the primary raw material transferred from kiln output.',
+    currentIssues: ['Reclaimer chain tension slightly elevated', 'Dust suppression system at 92% capacity'],
+    parameters: [
+      { label: 'Stock Level', value: '42,800', unit: 'tonnes', status: 'normal' },
+      { label: 'Reclaim Rate', value: '218', unit: 't/h', status: 'normal' },
+      { label: 'Temperature', value: '87', unit: '°C', status: 'normal' },
+      { label: 'Feeder Speed', value: '94', unit: '%', status: 'normal' },
+    ],
+    x: 0,
+    y: 0,
+  },
+  {
+    id: 'mill',
+    name: 'Cement Mill',
+    label: 'MILL',
+    status: 'warning',
+    throughput: 4_920,
+    targetThroughput: 5_500,
+    efficiency: 89.5,
+    description: 'Horizontal ball mill for grinding clinker, gypsum, and additives to produce cement powder.',
+    currentIssues: [
+      'Mill separator efficiency down 8%',
+      'Liner wear rate above spec — inspection due',
+      'Vibration on separator bearing elevated',
+    ],
+    parameters: [
+      { label: 'Mill Load', value: '91', unit: '%', status: 'warning' },
+      { label: 'Separator Speed', value: '1,240', unit: 'rpm', status: 'warning' },
+      { label: 'Outlet Temp', value: '118', unit: '°C', status: 'normal' },
+      { label: 'Residue (45μm)', value: '8.2', unit: '%', status: 'warning' },
+      { label: 'Power Draw', value: '3,840', unit: 'kW', status: 'normal' },
+    ],
+    x: 0,
+    y: 1,
+  },
+  {
+    id: 'additives',
+    name: 'Additives System',
+    label: 'ADDITIVES',
+    status: 'operational',
+    throughput: 4_920,
+    targetThroughput: 4_950,
+    efficiency: 99.4,
+    description: 'Gypsum, limestone filler, and fly ash additive feed systems maintaining cement blend ratios.',
+    currentIssues: ['Fly ash silo at 68% — reorder triggered'],
+    parameters: [
+      { label: 'Gypsum Feed', value: '4.8', unit: '%', status: 'normal' },
+      { label: 'Limestone Filler', value: '12.3', unit: '%', status: 'normal' },
+      { label: 'Fly Ash', value: '18.1', unit: '%', status: 'normal' },
+      { label: 'Dosing Accuracy', value: '±0.2', unit: '%', status: 'normal' },
+    ],
+    x: 0,
+    y: 2,
+  },
+  {
+    id: 'silo',
+    name: 'Cement Silo',
+    label: 'SILO',
+    status: 'warning',
+    throughput: 4_850,
+    targetThroughput: 5_000,
+    efficiency: 97.0,
+    description: 'Cement storage silos providing buffer between production and dispatch. Total capacity: 60,000t.',
+    currentIssues: [
+      'Silo #3 aeration system fault — under repair',
+      'Overall storage at 78% — dispatch priority increased',
+    ],
+    parameters: [
+      { label: 'Silo Level (avg)', value: '78', unit: '%', status: 'warning' },
+      { label: 'Aeration Pressure', value: '2.1', unit: 'bar', status: 'warning' },
+      { label: 'Silo #3 Status', value: 'FAULT', unit: '', status: 'critical' },
+      { label: 'Throughput', value: '202', unit: 't/h', status: 'normal' },
+    ],
+    x: 0,
+    y: 3,
+  },
+  {
+    id: 'packing',
+    name: 'Packing Plant',
+    label: 'PACKING',
+    status: 'critical',
+    throughput: 3_890,
+    targetThroughput: 5_000,
+    efficiency: 77.8,
+    description: 'Rotary packer lines for bagging cement into 50kg sacks. 4 lines operational, Line 3 down.',
+    currentIssues: [
+      'Packer Line 3 OFFLINE — bag feeder jam',
+      'Compressor pressure on Line 2 fluctuating',
+      'Spout wear on Line 4 — bag rejection rate 3.2%',
+      'Conveyor speed mismatch causing accumulation',
+    ],
+    parameters: [
+      { label: 'Lines Active', value: '3/4', unit: '', status: 'critical' },
+      { label: 'Bag Rate', value: '1,296', unit: 'bags/hr', status: 'critical' },
+      { label: 'Rejection Rate', value: '3.2', unit: '%', status: 'critical' },
+      { label: 'Compressor', value: '5.8', unit: 'bar', status: 'warning' },
+    ],
+    x: 0,
+    y: 4,
+  },
+  {
+    id: 'dispatch',
+    name: 'Dispatch & Logistics',
+    label: 'DISPATCH',
+    status: 'warning',
+    throughput: 3_820,
+    targetThroughput: 5_000,
+    efficiency: 76.4,
+    description: 'Truck and rail loading bays for cement dispatch. Fleet tracking and logistics coordination.',
+    currentIssues: [
+      'Dispatch constrained by packing output',
+      'Truck turnaround time elevated: 42 min vs 30 min target',
+      'Loading Bay 2 scale calibration due',
+    ],
+    parameters: [
+      { label: 'Trucks Loaded', value: '74', unit: 'today', status: 'warning' },
+      { label: 'Avg Turnaround', value: '42', unit: 'min', status: 'warning' },
+      { label: 'Loading Rate', value: '159', unit: 't/h', status: 'warning' },
+      { label: 'Pending Trucks', value: '18', unit: 'queued', status: 'normal' },
+    ],
+    x: 0,
+    y: 5,
+  },
+];
+
+export const flowConnections: FlowConnection[] = [
+  { from: 'clinker', to: 'mill', throughput: 5_180, status: 'operational' },
+  { from: 'mill', to: 'additives', throughput: 4_920, status: 'warning' },
+  { from: 'additives', to: 'silo', throughput: 4_920, status: 'operational' },
+  { from: 'silo', to: 'packing', throughput: 4_850, status: 'warning' },
+  { from: 'packing', to: 'dispatch', throughput: 3_890, status: 'critical' },
+];

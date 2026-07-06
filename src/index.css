@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 5%;
+    --foreground: 210 40% 96%;
+    --card: 222 40% 7%;
+    --card-foreground: 210 40% 96%;
+    --popover: 222 40% 7%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 199 89% 48%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 55%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 199 89% 48%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-industrial-bg text-foreground font-sans antialiased;
+    background-color: #0A0D14;
+    color: #e2e8f0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0F1320;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1E2536;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0EA5E9;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply bg-[#0F1320] border border-[#1E2536] rounded-lg;
+  }
+
+  .panel-header {
+    @apply px-5 py-4 border-b border-[#1E2536] flex items-center justify-between;
+  }
+
+  .status-dot {
+    @apply w-2 h-2 rounded-full inline-block;
+  }
+
+  .status-dot-green {
+    @apply status-dot bg-industrial-green shadow-[0_0_8px_rgba(16,185,129,0.8)];
+  }
+
+  .status-dot-amber {
+    @apply status-dot bg-industrial-amber shadow-[0_0_8px_rgba(245,158,11,0.8)];
+  }
+
+  .status-dot-red {
+    @apply status-dot bg-industrial-red shadow-[0_0_8px_rgba(239,68,68,0.8)];
+  }
+
+  .kpi-card {
+    @apply panel p-5 hover:border-industrial-blue/40 transition-all duration-300 cursor-default;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400
+           hover:text-white hover:bg-[#1A2035] transition-all duration-200 cursor-pointer;
+  }
+
+  .nav-item-active {
+    @apply nav-item text-industrial-blue bg-industrial-blue/10 border border-industrial-blue/20;
+  }
+
+  .badge-critical {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-red-500/20 text-red-400 border border-red-500/30;
+  }
+
+  .badge-high {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30;
+  }
+
+  .badge-medium {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30;
+  }
+
+  .badge-open {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-slate-500/20 text-slate-300 border border-slate-500/30;
+  }
+
+  .badge-in-progress {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30;
+  }
+
+  .badge-resolved {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-green-500/20 text-green-400 border border-green-500/30;
+  }
+
+  .grid-scanline {
+    background-image: 
+      linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+/* Animated flow particles */
+@keyframes particle-flow {
+  0% { stroke-dashoffset: 100; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.flow-particle {
+  stroke-dasharray: 8 12;
+  animation: particle-flow 2s linear infinite;
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+/* Recharts customization */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #1E2536 !important;
+}
+
+.recharts-text {
+  fill: #64748b !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+}
