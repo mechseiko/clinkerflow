@@ -4,7 +4,7 @@ import { ChevronRight, ChevronDown, Wrench, Cpu, ClipboardCheck, Clock } from 'l
 import { rootCauseData } from '../data/rootCauseData';
 import { plantStages } from '../data/plantData';
 import { statusColor, frequencyColor } from '../utils/formatters';
-import type { RootCauseNode, FailureCategory, MechanicalFailure } from '../types';
+import type { FailureCategory, MechanicalFailure } from '../types';
 
 function FailureCard({ failure }: { failure: MechanicalFailure }) {
   return (
@@ -113,11 +113,10 @@ export function RootCause() {
               key={r.stageId}
               id={`rc-stage-${r.stageId}`}
               onClick={() => setSelectedStage(r.stageId)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border ${
-                isActive
-                  ? 'text-white border-current'
-                  : 'text-slate-400 border-[#1E2536] hover:border-slate-500 hover:text-slate-200'
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border ${isActive
+                ? 'text-white border-current'
+                : 'text-slate-400 border-[#1E2536] hover:border-slate-500 hover:text-slate-200'
+                }`}
               style={isActive ? { borderColor: color, backgroundColor: `${color}15`, color } : {}}
             >
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
