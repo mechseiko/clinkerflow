@@ -20,25 +20,27 @@ function CauseCard({ cause, stageId }: { cause: LossCause; stageId: string }) {
     >
       <button
         id={`cause-${stageId}-${cause.id}`}
-        className="w-full flex items-center justify-between p-4 text-left hover:bg-[#1A2035]/50 transition-colors"
+        className="w-full text-left p-4 hover:bg-[#1A2035]/50 transition-colors"
         onClick={() => setOpen((o) => !o)}
       >
-        <div className="flex items-start gap-3 min-w-0">
-          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-          <div className="min-w-0">
-            <p className="text-sm text-slate-200 leading-snug">{cause.description}</p>
-            <div className="flex items-center gap-3 mt-1.5">
-              <PriorityBadge priority={cause.priority} />
-              <div className="flex items-center gap-1 text-[10px] text-slate-500">
-                <User className="w-3 h-3" />
-                {cause.owner}
+        <div className="flex flex-wrap items-start gap-x-3 gap-y-2 justify-between">
+          <div className="flex items-start gap-3 min-w-0 flex-1">
+            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <div className="min-w-0">
+              <p className="text-sm text-slate-200 leading-snug">{cause.description}</p>
+              <div className="flex flex-wrap items-center gap-3 mt-1.5">
+                <PriorityBadge priority={cause.priority} />
+                <div className="flex items-center gap-1 text-[10px] text-slate-500">
+                  <User className="w-3 h-3" />
+                  {cause.owner}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex items-center gap-3 shrink-0 ml-3">
-          <span className="text-sm font-mono text-red-400 font-semibold">−{formatNumber(cause.loss)} TPD</span>
-          {open ? <ChevronDown className="w-4 h-4 text-slate-500" /> : <ChevronRight className="w-4 h-4 text-slate-500" />}
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="text-sm font-mono text-red-400 font-semibold">−{formatNumber(cause.loss)} TPD</span>
+            {open ? <ChevronDown className="w-4 h-4 text-slate-500" /> : <ChevronRight className="w-4 h-4 text-slate-500" />}
+          </div>
         </div>
       </button>
       <AnimatePresence>
@@ -99,9 +101,9 @@ function LossStageAccordion({ entry, index }: { entry: LossEntry; index: number 
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
           <div className="text-right">
-            <div className="text-lg font-bold text-red-400 font-mono">−{formatNumber(entry.totalLoss)}</div>
+            <div className="text-base sm:text-lg font-bold text-red-400 font-mono">−{formatNumber(entry.totalLoss)}</div>
             <div className="text-[10px] text-slate-500">TPD lost</div>
           </div>
         </div>
@@ -131,13 +133,13 @@ function LossStageAccordion({ entry, index }: { entry: LossEntry; index: number 
 export function LossTree() {
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-white">Interactive Loss Tree</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Click each stage to expand causes, actions, and owners</p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg sm:text-xl font-bold text-white">Interactive Loss Tree</h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Click each stage to expand causes, actions, and owners</p>
         </div>
-        <div className="text-right">
-          <div className="text-3xl font-bold text-red-400 font-mono">−{formatNumber(totalLoss)}</div>
+        <div className="text-right shrink-0">
+          <div className="text-2xl sm:text-3xl font-bold text-red-400 font-mono">−{formatNumber(totalLoss)}</div>
           <div className="text-xs text-slate-500">Total TPD Lost Today</div>
         </div>
       </div>
@@ -148,7 +150,7 @@ export function LossTree() {
           <span className="text-sm font-semibold text-white">Cumulative Loss Waterfall</span>
           <span className="text-xs text-slate-500">Design Capacity → Actual Output</span>
         </div>
-        <div className="p-4 h-72">
+        <div className="p-4 h-48 sm:h-64 md:h-72">
           <WaterfallChart data={waterfallData} />
         </div>
       </div>

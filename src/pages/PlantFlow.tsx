@@ -10,12 +10,12 @@ export function PlantFlow() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-white">Plant Flow Visualization</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Clinker → Mill → Additives → Silo → Packing → Dispatch · Click any stage for details</p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg sm:text-xl font-bold text-white">Plant Flow Visualization</h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Clinker → Mill → Additives → Silo → Packing → Dispatch · Click any stage for details</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
           <div className="flex items-center gap-2 text-xs text-slate-400">
             <div className="w-2 h-2 rounded-full bg-industrial-green" />
             <span>{operationalCount} OK</span>
@@ -31,7 +31,7 @@ export function PlantFlow() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Flow diagram */}
         <div className="panel p-6">
           <div className="panel-header -mx-6 -mt-6 mb-6 px-6">

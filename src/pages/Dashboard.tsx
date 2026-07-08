@@ -18,8 +18,8 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-white">KPI Dashboard</h2>
-        <p className="text-sm text-slate-500 mt-0.5">Today's performance deep dive · All data illustrative</p>
+        <h2 className="text-lg sm:text-xl font-bold text-white">KPI Dashboard</h2>
+        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Today's performance deep dive · All data illustrative</p>
       </div>
 
       {/* Gauge row */}
@@ -41,8 +41,8 @@ export function Dashboard() {
         <div className="panel p-5 flex flex-col justify-between">
           <div>
             <div className="text-xs text-slate-500 uppercase tracking-wider font-medium mb-1">Total Loss Today</div>
-            <div className="text-4xl font-bold font-mono text-red-400 mb-2">
-              {formatNumber(lossKpi.value as number)} <span className="text-lg text-slate-500">TPD</span>
+            <div className="text-2xl sm:text-4xl font-bold font-mono text-red-400 mb-2">
+              {formatNumber(lossKpi.value as number)} <span className="text-base sm:text-lg text-slate-500">TPD</span>
             </div>
             <div className="text-xs text-slate-500">
               Potential value: <span className="text-amber-400">₦{(((lossKpi.value as number) * 13000) / 1000000).toFixed(1)}M / day</span>
@@ -64,7 +64,7 @@ export function Dashboard() {
       </div>
 
       {/* Charts row */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="panel">
           <div className="panel-header">
             <span className="text-sm font-semibold text-white">7-Day Output vs Target</span>

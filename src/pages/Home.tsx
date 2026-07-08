@@ -51,7 +51,7 @@ function KPICardComponent({ kpi, index }: { kpi: KPICard; index: number }) {
         />
       </div>
       <div className="flex items-end gap-2 mb-2">
-        <span className="text-3xl font-bold text-white font-mono leading-none">
+        <span className="text-2xl sm:text-3xl font-bold text-white font-mono leading-none">
           {typeof kpi.value === 'number' ? formatNumber(kpi.value, kpi.unit === '%' || kpi.unit === 'ratio' ? 2 : 0) : kpi.value}
         </span>
         {kpi.unit && (
@@ -134,12 +134,12 @@ export function Home() {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-white">Production Overview</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Dangote Cement — Clinker-to-Cement Conversion · <span className="font-mono text-industrial-blue">Line 1–4</span></p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg sm:text-xl font-bold text-white">Production Overview</h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Dangote Cement — Clinker-to-Cement Conversion · <span className="font-mono text-industrial-blue">Line 1–4</span></p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A2035] border border-[#1E2536]">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1A2035] border border-[#1E2536] shrink-0">
           <div className="w-1.5 h-1.5 rounded-full bg-industrial-green animate-pulse" />
           <span className="text-xs text-slate-400 font-mono">LIVE FEED</span>
         </div>
@@ -225,9 +225,9 @@ export function Home() {
                       <span className={`badge-${issue.priority.toLowerCase()}`}>{issue.priority}</span>
                     </div>
                     <div className="text-sm font-semibold text-white leading-snug">{issue.description}</div>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-slate-400">
+                    <div className="flex flex-wrap items-start gap-x-4 gap-y-1.5 mt-2 text-xs text-slate-400">
                       <span className="flex items-center gap-1"><Cpu className="w-3.5 h-3.5 text-slate-500" /> Owner: <span className="text-slate-300 font-medium">{issue.owner}</span></span>
-                      <span className="flex items-center gap-1"><Wrench className="w-3.5 h-3.5 text-slate-500" /> Action: <span className="text-slate-300 truncate max-w-xs">{issue.actions[0]}</span></span>
+                      <span className="flex items-start gap-1 min-w-0"><Wrench className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" /> <span className="text-slate-300 line-clamp-2">{issue.actions[0]}</span></span>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
@@ -257,7 +257,7 @@ export function Home() {
 
       {/* Critical Systems Flags per System (Mill, Packing, Dispatch) */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Critical Systems Health Indicators</h3>
           <span className="text-[10px] text-slate-500 font-mono font-semibold">PLANT TELEMETRY</span>
         </div>
@@ -334,7 +334,7 @@ export function Home() {
       </div>
 
       {/* Row 4: 7-Day Trend & Plant Stage Status */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Plant stage status */}
         <div className="panel">
           <div className="panel-header">
@@ -379,7 +379,7 @@ export function Home() {
         </div>
 
         {/* 7-day trend */}
-        <div className="panel xl:col-span-2">
+        <div className="panel lg:col-span-2">
           <div className="panel-header">
             <span className="text-sm font-semibold text-white">7-Day Output Trend</span>
             <span className="text-xs text-slate-500 font-mono">TPD vs Target</span>

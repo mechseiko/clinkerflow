@@ -103,7 +103,7 @@ function ExportCard({ option, index }: { option: ExportOption; index: number }) 
             id={`export-${option.id}`}
             onClick={handleExport}
             disabled={status !== 'idle'}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-70"
+            className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-70"
             style={{
               backgroundColor: status === 'done' ? '#10B98120' : `${option.color}15`,
               borderWidth: 1,
@@ -129,8 +129,8 @@ export function Documentation() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-white">Documentation Export</h2>
-        <p className="text-sm text-slate-500 mt-0.5">Download reports, data exports, and presentation decks</p>
+        <h2 className="text-lg sm:text-xl font-bold text-white">Documentation Export</h2>
+        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Download reports, data exports, and presentation decks</p>
       </div>
 
       {/* Notice */}
@@ -150,21 +150,43 @@ export function Documentation() {
         ))}
       </div>
 
-      {/* Metadata */}
-      <div className="panel p-5">
-        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Report Metadata</div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          {[
-            { label: 'Plant', value: 'Dangote Cement — Line 1–4' },
-            { label: 'Date', value: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) },
-            { label: 'Shift', value: 'Day Shift (06:00 – 18:00)' },
-            { label: 'Data Type', value: 'Illustrative — Competition' },
-          ].map((item) => (
-            <div key={item.label}>
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">{item.label}</div>
-              <div className="text-slate-300 font-medium">{item.value}</div>
+      {/* Presentation Training Guide for Competition */}
+      <div className="panel p-6 border-industrial-blue/30 bg-gradient-to-br from-industrial-blue/5 to-transparent">
+        <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-industrial-blue animate-pulse" />
+          2026 Dangote Cement Competition Presentation Guide
+        </h3>
+        
+        <div className="space-y-4 text-xs sm:text-sm text-slate-300">
+          <div className="border-l-2 border-industrial-blue/40 pl-4 py-1">
+            <p className="font-semibold text-white">How to explain this to the judges:</p>
+            <p className="text-slate-400 mt-1 leading-relaxed">
+              DCP engineering judges aren't just looking for standard OEE metrics. They want to see an integrated model that addresses downstream constraints (grinding mill rate, additive silos, packing queues, truck dispatch delays) rather than just kiln runtime. Explain that <strong>ClinkerFlow</strong> connects volumetric losses to root mechanical causes to give operators action items, not just statistics.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="p-3.5 bg-[#080B12] rounded-lg border border-[#1E2536]">
+              <div className="text-xs font-bold text-industrial-green uppercase font-mono mb-1">Key Message 1: Downstream Constrained</div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                "We mapped the entire clinker-to-cement system. Our model proves that daily target shortfalls are frequently caused by packing jammed feeder lines or truck turnaround delays, not the kiln itself."
+              </p>
             </div>
-          ))}
+            <div className="p-3.5 bg-[#080B12] rounded-lg border border-[#1E2536]">
+              <div className="text-xs font-bold text-industrial-blue uppercase font-mono mb-1">Key Message 2: Bridging Data to Maintenance</div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                "Our platform uses live pressure and sensor limits to trigger specific root cause inspections (e.g. check bag magazines or compressor lines), saving hours of diagnostics."
+              </p>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Unimplemented Production Features (Future Scope Checklist)</div>
+            <ul className="space-y-1.5 text-xs text-slate-400 list-disc list-inside">
+              <li><strong className="text-slate-300">Logo & Favicon:</strong> Complete custom branding kit with corporate icons for browser tabs and bookmarks.</li>
+              <li><strong className="text-slate-300">SEO Meta Headers:</strong> Embedded meta titles and descriptions optimized for social sharing and secure system authentication index page links.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

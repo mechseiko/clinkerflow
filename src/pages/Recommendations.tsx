@@ -38,15 +38,15 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
 
       <div className="p-5 space-y-4">
         {/* Header */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex items-start gap-3 flex-1 min-w-0">
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
               style={{ backgroundColor: `${borderColor}15`, border: `1px solid ${borderColor}30` }}
             >
               <Icon className="w-4 h-4" style={{ color: borderColor }} />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <span className={badgeClass}>{rec.priority}</span>
                 <span className="text-[10px] text-slate-500 font-mono">{rec.stageName}</span>
@@ -55,7 +55,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             </div>
           </div>
           <div className="text-right shrink-0">
-            <div className="text-xl font-bold font-mono text-industrial-green">+{formatNumber(rec.estimatedGain)}</div>
+            <div className="text-lg sm:text-xl font-bold font-mono text-industrial-green">+{formatNumber(rec.estimatedGain)}</div>
             <div className="text-[10px] text-slate-500">TPD gain</div>
           </div>
         </div>
@@ -68,7 +68,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Causes */}
           <div>
             <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Potential Causes</div>
@@ -96,10 +96,10 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-2 border-t border-[#1E2536]">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#1E2536]">
           <div>
             <div className="text-[10px] text-slate-500 mb-1">Confidence</div>
-            <div className="w-36">
+            <div className="w-28 sm:w-36">
               <ConfidenceBar value={rec.confidence} />
             </div>
           </div>
@@ -118,13 +118,13 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
 export function Recommendations() {
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-white">AI-Style Recommendations</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Prioritized improvement actions based on today's loss analysis</p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg sm:text-xl font-bold text-white">AI-Style Recommendations</h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Prioritized improvement actions based on today's loss analysis</p>
         </div>
-        <div className="panel px-5 py-3 text-right">
-          <div className="text-2xl font-bold text-industrial-green font-mono">+{formatNumber(totalPotentialGain)}</div>
+        <div className="panel px-5 py-3 text-right shrink-0">
+          <div className="text-xl sm:text-2xl font-bold text-industrial-green font-mono">+{formatNumber(totalPotentialGain)}</div>
           <div className="text-xs text-slate-500">Total potential TPD gain</div>
         </div>
       </div>
