@@ -45,8 +45,9 @@ export function GaugeChart({ value, label, sublabel, color, size = 'md' }: Props
   const oR = 85;
 
   return (
-    <div className="flex flex-col items-center gap-1">
-      <div className="relative" style={{ width: 200, height: 130 }}>
+    <div className="flex flex-col items-center gap-1 w-full">
+      {/* Fluid container: max-width keeps it from getting too large, aspect ratio keeps proportions */}
+      <div className="relative w-full max-w-[200px] mx-auto" style={{ aspectRatio: '200/130' }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -73,7 +74,7 @@ export function GaugeChart({ value, label, sublabel, color, size = 'md' }: Props
           className="absolute inset-0 flex flex-col items-center justify-end pb-3"
           style={{ pointerEvents: 'none' }}
         >
-          <span className="text-2xl font-bold font-mono" style={{ color: c }}>
+          <span className="text-xl sm:text-2xl font-bold font-mono" style={{ color: c }}>
             {clampedValue.toFixed(1)}%
           </span>
         </div>

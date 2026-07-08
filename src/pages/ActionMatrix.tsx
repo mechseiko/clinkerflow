@@ -73,22 +73,22 @@ export function ActionMatrix() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-white">Action Matrix</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Live action tracker with sortable / filterable columns</p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h2 className="text-lg sm:text-xl font-bold text-white">Action Matrix</h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Live action tracker with sortable / filterable columns</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
           <div className="text-center px-3 py-2 rounded-lg bg-[#1A2035] border border-[#1E2536]">
-            <div className="text-lg font-bold font-mono text-slate-300">{openCount}</div>
+            <div className="text-base sm:text-lg font-bold font-mono text-slate-300">{openCount}</div>
             <div className="text-[10px] text-slate-500">Open</div>
           </div>
           <div className="text-center px-3 py-2 rounded-lg bg-[#1A2035] border border-[#1E2536]">
-            <div className="text-lg font-bold font-mono text-industrial-blue">{inProgressCount}</div>
+            <div className="text-base sm:text-lg font-bold font-mono text-industrial-blue">{inProgressCount}</div>
             <div className="text-[10px] text-slate-500">In Progress</div>
           </div>
           <div className="text-center px-3 py-2 rounded-lg bg-[#1A2035] border border-[#1E2536]">
-            <div className="text-lg font-bold font-mono text-industrial-green">{resolvedCount}</div>
+            <div className="text-base sm:text-lg font-bold font-mono text-industrial-green">{resolvedCount}</div>
             <div className="text-[10px] text-slate-500">Resolved</div>
           </div>
         </div>
@@ -142,8 +142,8 @@ export function ActionMatrix() {
         Active losses: <span className="text-red-400 font-mono font-medium">−{formatNumber(totalLoss)} TPD</span>
       </div>
 
-      {/* Table */}
-      <div className="panel overflow-hidden">
+      {/* Table — desktop/tablet (md+): horizontal scroll */}
+      <div className="panel overflow-hidden hidden md:block">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[900px]">
             <thead>
@@ -210,6 +210,49 @@ export function ActionMatrix() {
             <div className="text-center py-12 text-slate-500">No actions match your filters.</div>
           )}
         </div>
+      </div>
+
+      {/* Mobile card view (< md): stacked cards */}
+      <div className="md:hidden space-y-3">
+        {filtered.length === 0 ? (
+          <div className="text-center py-12 text-slate-500">No actions match your filters.</div>
+        ) : (
+          filtered.map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.04 }}
+              className={`panel p-4 space-y-3 ${item.status === 'Resolved' ? 'opacity-60' : ''}`}
+            >
+              {/* Description */}
+              <div>
+                <div className="text-sm text-slate-200 leading-snug">{item.lossDescription}</div>
+                {item.notes && <div className="text-[10px] text-slate-500 mt-0.5">{item.notes}</div>}
+              </div>
+              {/* Meta row */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+                <span className="text-slate-500">{item.stage}</span>
+                <span className="font-mono font-semibold text-red-400">
+                  {item.loss > 0 ? `−${formatNumber(item.loss)} TPD` : '—'}
+                </span>
+              </div>
+              {/* Badges + owner */}
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap gap-2">
+                  <PriorityBadge p={item.priority} />
+                  <StatusBadge s={item.status} />
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-slate-300">{item.owner}</div>
+                  <div className="text-[10px] text-slate-500">{item.department}</div>
+                </div>
+              </div>
+              {/* Due date */}
+              <div className="text-[10px] font-mono text-slate-500">Due: {item.dueDate}</div>
+            </motion.div>
+          ))
+        )}
       </div>
     </div>
   );

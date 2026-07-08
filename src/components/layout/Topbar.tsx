@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Bell, Settings, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Bell, Settings, RefreshCw, AlertTriangle, Menu } from 'lucide-react';
 
 const pageTitles: Record<string, { title: string; subtitle: string }> = {
   '/': { title: 'Executive Summary', subtitle: 'Real-time operational overview' },
@@ -13,7 +13,11 @@ const pageTitles: Record<string, { title: string; subtitle: string }> = {
   '/documentation': { title: 'Documentation Export', subtitle: 'Download reports and presentations' },
 };
 
-export function Topbar() {
+interface TopbarProps {
+  onMenuClick: () => void;
+}
+
+export function Topbar({ onMenuClick }: TopbarProps) {
   const location = useLocation();
   const pageInfo = pageTitles[location.pathname] ?? { title: 'ClinkerFlow', subtitle: '' };
   const [time, setTime] = useState(new Date());
@@ -36,28 +40,40 @@ export function Topbar() {
     d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
 
   return (
-    <header className="h-14 bg-[#080B12] border-b border-[#1E2536] flex items-center justify-between px-6 shrink-0">
-      {/* Page title */}
-      <div>
-        <h1 className="text-base font-semibold text-white leading-tight">{pageInfo.title}</h1>
-        <p className="text-xs text-slate-500">{pageInfo.subtitle}</p>
+    <header className="h-14 bg-[#080B12] border-b border-[#1E2536] flex items-center justify-between px-3 sm:px-6 shrink-0 gap-2">
+      {/* Left: hamburger (mobile only) + page title */}
+      <div className="flex items-center gap-3 min-w-0">
+        {/* Hamburger — only on mobile/tablet (< lg) */}
+        <button
+          id="topbar-menu"
+          onClick={onMenuClick}
+          className="lg:hidden w-9 h-9 rounded-lg bg-[#1A2035] border border-[#1E2536] flex items-center justify-center text-slate-400 hover:text-white hover:border-industrial-blue/40 transition-all duration-200 shrink-0"
+          aria-label="Open navigation"
+        >
+          <Menu className="w-4 h-4" />
+        </button>
+
+        <div className="min-w-0">
+          <h1 className="text-sm sm:text-base font-semibold text-white leading-tight truncate">{pageInfo.title}</h1>
+          <p className="text-xs text-slate-500 hidden sm:block truncate">{pageInfo.subtitle}</p>
+        </div>
       </div>
 
-      {/* Center — illustrative banner */}
-      <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
+      {/* Center — illustrative banner (desktop only) */}
+      <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 shrink-0">
         <AlertTriangle className="w-3 h-3 text-amber-400" />
         <span className="text-[10px] font-medium text-amber-400 tracking-wide">ILLUSTRATIVE DATA — Competition Prototype</span>
       </div>
 
       {/* Right controls */}
-      <div className="flex items-center gap-3">
-        {/* Live clock */}
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        {/* Live clock — hidden on mobile */}
         <div className="hidden sm:flex flex-col items-end">
           <span className="text-xs font-mono text-industrial-blue tracking-wider">{formatTime(time)}</span>
           <span className="text-[10px] text-slate-500">{formatDate(time)}</span>
         </div>
 
-        <div className="h-5 w-px bg-[#1E2536]" />
+        <div className="hidden sm:block h-5 w-px bg-[#1E2536]" />
 
         <button
           id="topbar-refresh"
@@ -79,7 +95,7 @@ export function Topbar() {
 
         <button
           id="topbar-settings"
-          className="w-8 h-8 rounded-lg bg-[#1A2035] border border-[#1E2536] flex items-center justify-center text-slate-400 hover:text-white hover:border-industrial-blue/40 transition-all duration-200"
+          className="hidden sm:flex w-8 h-8 rounded-lg bg-[#1A2035] border border-[#1E2536] items-center justify-center text-slate-400 hover:text-white hover:border-industrial-blue/40 transition-all duration-200"
           title="Settings"
         >
           <Settings className="w-3.5 h-3.5" />

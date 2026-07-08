@@ -98,8 +98,8 @@ export function RootCause() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-white">Root Cause Explorer</h2>
-        <p className="text-sm text-slate-500 mt-0.5">Select a process stage to explore failure modes, instrumentation, and inspection guidance</p>
+        <h2 className="text-lg sm:text-xl font-bold text-white">Root Cause Explorer</h2>
+        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Select a process stage to explore failure modes, instrumentation, and inspection guidance</p>
       </div>
 
       {/* Stage selector */}
@@ -140,9 +140,9 @@ export function RootCause() {
           >
             {/* Stage header */}
             <div className="panel p-5">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
                 <div
-                  className="w-3 h-3 rounded-full"
+                  className="w-3 h-3 rounded-full shrink-0"
                   style={{ backgroundColor: statusColor(stageInfo.status), boxShadow: `0 0 10px ${statusColor(stageInfo.status)}` }}
                 />
                 <span className="font-semibold text-white text-base">{stageInfo.name}</span>
@@ -152,13 +152,13 @@ export function RootCause() {
             </div>
 
             {/* Drill-down breadcrumb */}
-            <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
               <span className="text-white font-medium">{stageInfo.name}</span>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3 h-3 shrink-0" />
               <span>Failure Category</span>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3 h-3 shrink-0" />
               <span>Mechanical Reason</span>
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3 h-3 shrink-0" />
               <span>Instrumentation → Inspection</span>
             </div>
 
