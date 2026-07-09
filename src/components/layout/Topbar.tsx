@@ -1,106 +1,61 @@
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Bell, Settings, RefreshCw, AlertTriangle, Menu } from 'lucide-react';
-
-const pageTitles: Record<string, { title: string; subtitle: string }> = {
-  '/': { title: 'Executive Summary', subtitle: 'Real-time operational overview' },
-  '/plant-flow': { title: 'Plant Flow', subtitle: 'Clinker → Cement conversion visualization' },
-  '/loss-tree': { title: 'Loss Tree', subtitle: 'Cumulative production loss analysis' },
-  '/dashboard': { title: 'KPI Dashboard', subtitle: 'Key performance indicator deep dive' },
-  '/root-cause': { title: 'Root Cause Explorer', subtitle: 'Failure analysis and inspection guide' },
-  '/recommendations': { title: 'AI Recommendations', subtitle: 'Prioritized improvement actions' },
-  '/actions': { title: 'Action Matrix', subtitle: 'Live action tracker and ownership' },
-  '/documentation': { title: 'Documentation Export', subtitle: 'Download reports and presentations' },
-};
+import { useState } from 'react';
+import { Menu, ShieldAlert, Cpu } from 'lucide-react';
+import { DisclaimerBanner } from '../ui/DisclaimerBanner';
 
 interface TopbarProps {
-  onMenuClick: () => void;
+  onMobileOpen: () => void;
 }
 
-export function Topbar({ onMenuClick }: TopbarProps) {
-  const location = useLocation();
-  const pageInfo = pageTitles[location.pathname] ?? { title: 'ClinkerFlow', subtitle: '' };
-  const [time, setTime] = useState(new Date());
-  const [refreshing, setRefreshing] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleRefresh = () => {
-    setRefreshing(true);
-    setTimeout(() => setRefreshing(false), 1200);
-  };
-
-  const formatTime = (d: Date) =>
-    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-
-  const formatDate = (d: Date) =>
-    d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+export function Topbar({ onMobileOpen }: TopbarProps) {
+  const [selectedShift, setSelectedShift] = useState<'A' | 'B' | 'C'>('A');
 
   return (
-    <header className="h-14 bg-[#080B12] border-b border-[#1E2536] flex items-center justify-between px-3 sm:px-6 shrink-0 gap-2">
-      {/* Left: hamburger (mobile only) + page title */}
-      <div className="flex items-center gap-3 min-w-0">
-        {/* Hamburger — only on mobile/tablet (< lg) */}
+    <header className="bg-[#080B12] border-b border-[#1E2536] h-16 flex items-center justify-between px-4 sm:px-6 relative shrink-0 z-30">
+      {/* Left section: mobile toggle + title */}
+      <div className="flex items-center gap-3">
         <button
-          id="topbar-menu"
-          onClick={onMenuClick}
-          className="lg:hidden w-9 h-9 rounded-lg bg-[#1A2035] border border-[#1E2536] flex items-center justify-center text-slate-400 hover:text-white hover:border-industrial-blue/40 transition-all duration-200 shrink-0"
+          onClick={onMobileOpen}
+          className="lg:hidden p-2 rounded-lg bg-[#1A2035] border border-[#1E2536] text-slate-400 hover:text-white transition-colors"
           aria-label="Open navigation"
         >
-          <Menu className="w-4 h-4" />
+          <Menu className="w-5 h-5" />
         </button>
 
-        <div className="min-w-0">
-          <h1 className="text-sm sm:text-base font-semibold text-white leading-tight truncate">{pageInfo.title}</h1>
-          <p className="text-xs text-slate-500 hidden sm:block truncate">{pageInfo.subtitle}</p>
+        <div className="hidden sm:flex items-center gap-2 text-xs font-mono font-medium text-slate-400">
+          <Cpu className="w-3.5 h-3.5 text-industrial-blue" />
+          <span>Dangote Cement University Eng. Challenge 2026</span>
         </div>
       </div>
 
-      {/* Center — illustrative banner (desktop only) */}
-      <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 shrink-0">
-        <AlertTriangle className="w-3 h-3 text-amber-400" />
-        <span className="text-[10px] font-medium text-amber-400 tracking-wide">ILLUSTRATIVE DATA — Competition Prototype</span>
-      </div>
-
-      {/* Right controls */}
-      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-        {/* Live clock — hidden on mobile */}
-        <div className="hidden sm:flex flex-col items-end">
-          <span className="text-xs font-mono text-industrial-blue tracking-wider">{formatTime(time)}</span>
-          <span className="text-[10px] text-slate-500">{formatDate(time)}</span>
+      {/* Right section: Shift selector + Demo mode indicator */}
+      <div className="flex items-center gap-4">
+        {/* Shift selector (display only) */}
+        <div className="flex items-center gap-1.5 bg-[#0F1320] border border-[#1E2536] p-1 rounded-lg">
+          <span className="text-[10px] font-mono text-slate-500 uppercase px-2 font-bold">Shift</span>
+          {(['A', 'B', 'C'] as const).map((shift) => (
+            <button
+              key={shift}
+              onClick={() => setSelectedShift(shift)}
+              className={`text-xs font-mono font-bold px-2 py-0.5 rounded transition-all ${
+                selectedShift === shift
+                  ? 'bg-industrial-blue/15 text-industrial-blue border border-industrial-blue/30'
+                  : 'text-slate-400 hover:text-slate-200 border border-transparent'
+              }`}
+            >
+              {shift}
+            </button>
+          ))}
         </div>
 
-        <div className="hidden sm:block h-5 w-px bg-[#1E2536]" />
-
-        <button
-          id="topbar-refresh"
-          onClick={handleRefresh}
-          className="w-8 h-8 rounded-lg bg-[#1A2035] border border-[#1E2536] flex items-center justify-center text-slate-400 hover:text-white hover:border-industrial-blue/40 transition-all duration-200"
-          title="Refresh data"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
-        </button>
-
-        <button
-          id="topbar-alerts"
-          className="relative w-8 h-8 rounded-lg bg-[#1A2035] border border-[#1E2536] flex items-center justify-center text-slate-400 hover:text-white hover:border-industrial-blue/40 transition-all duration-200"
-          title="Alerts"
-        >
-          <Bell className="w-3.5 h-3.5" />
-          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-        </button>
-
-        <button
-          id="topbar-settings"
-          className="hidden sm:flex w-8 h-8 rounded-lg bg-[#1A2035] border border-[#1E2536] items-center justify-center text-slate-400 hover:text-white hover:border-industrial-blue/40 transition-all duration-200"
-          title="Settings"
-        >
-          <Settings className="w-3.5 h-3.5" />
-        </button>
+        {/* Demo notification banner */}
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded bg-amber-500/10 border border-amber-500/25">
+          <ShieldAlert className="w-3 h-3 text-amber-400" />
+          <span className="text-[10px] font-mono font-bold text-amber-400">DEMO RUN</span>
+        </div>
       </div>
+
+      {/* Disclaimer Strip bottom overlay */}
+      <div className="absolute left-0 right-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-[#1E2536] to-transparent" />
     </header>
   );
 }

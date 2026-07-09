@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { Search, ChevronUp, ChevronDown, Filter } from 'lucide-react';
 import { actionItems } from '../data/actionData';
 import { formatNumber } from '../utils/formatters';
+import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
 import type { ActionItem, Priority, ActionStatus } from '../types';
 
-type SortField = keyof Pick<ActionItem, 'loss' | 'priority' | 'status' | 'dueDate' | 'stage' | 'owner'>;
+type SortField = keyof Pick<ActionItem, 'loss' | 'priority' | 'status' | 'dueDate' | 'stage' | 'owner' | 'lossIndex'>;
 
 const PRIORITY_ORDER: Record<Priority, number> = { Critical: 0, High: 1, Medium: 2, Low: 3 };
 const STATUS_ORDER: Record<ActionStatus, number> = { Open: 0, 'In Progress': 1, Resolved: 2 };
@@ -46,7 +47,8 @@ export function ActionMatrix() {
           a.lossDescription.toLowerCase().includes(q) ||
           a.stage.toLowerCase().includes(q) ||
           a.owner.toLowerCase().includes(q) ||
-          a.department.toLowerCase().includes(q)
+          a.department.toLowerCase().includes(q) ||
+          a.lossIndex.toLowerCase().includes(q)
       );
     }
     if (filterStatus !== 'All') items = items.filter((a) => a.status === filterStatus);
@@ -66,57 +68,61 @@ export function ActionMatrix() {
     return items;
   }, [search, sortField, sortDir, filterStatus, filterPriority]);
 
-  const totalLoss = filtered.filter((a) => a.status !== 'Resolved').reduce((s, a) => s + a.loss, 0);
+  const activeLossTotal = filtered.filter((a) => a.status !== 'Resolved').reduce((s, a) => s + a.loss, 0);
   const openCount = actionItems.filter((a) => a.status === 'Open').length;
   const inProgressCount = actionItems.filter((a) => a.status === 'In Progress').length;
   const resolvedCount = actionItems.filter((a) => a.status === 'Resolved').length;
 
   return (
     <div className="space-y-6">
+      <DisclaimerBanner />
+
+      {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
-          <h2 className="text-lg sm:text-xl font-bold text-white">Action Matrix</h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Live action tracker with sortable / filterable columns</p>
+          <h2 className="text-xl font-bold text-white">Operational Action Tracker</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Real-time status tracking for conversion chain capacity recovery items
+          </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
           <div className="text-center px-3 py-2 rounded-lg bg-[#1A2035] border border-[#1E2536]">
-            <div className="text-base sm:text-lg font-bold font-mono text-slate-300">{openCount}</div>
-            <div className="text-[10px] text-slate-500">Open</div>
+            <div className="text-sm font-bold font-mono text-slate-300">{openCount}</div>
+            <div className="text-[9px] text-slate-500 font-mono uppercase">Open</div>
           </div>
           <div className="text-center px-3 py-2 rounded-lg bg-[#1A2035] border border-[#1E2536]">
-            <div className="text-base sm:text-lg font-bold font-mono text-industrial-blue">{inProgressCount}</div>
-            <div className="text-[10px] text-slate-500">In Progress</div>
+            <div className="text-sm font-bold font-mono text-industrial-blue">{inProgressCount}</div>
+            <div className="text-[9px] text-slate-500 font-mono uppercase">Active</div>
           </div>
           <div className="text-center px-3 py-2 rounded-lg bg-[#1A2035] border border-[#1E2536]">
-            <div className="text-base sm:text-lg font-bold font-mono text-industrial-green">{resolvedCount}</div>
-            <div className="text-[10px] text-slate-500">Resolved</div>
+            <div className="text-sm font-bold font-mono text-industrial-green">{resolvedCount}</div>
+            <div className="text-[9px] text-slate-500 font-mono uppercase">Resolved</div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-48">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
           <input
             id="action-search"
             type="text"
-            placeholder="Search actions, stages, owners..."
+            placeholder="Search descriptions, stages, owners, loss index..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#0F1320] border border-[#1E2536] rounded-lg pl-9 pr-4 py-2 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-industrial-blue/50 transition-colors"
+            className="w-full bg-[#0F1320] border border-[#1E2536] rounded-lg pl-9 pr-4 py-2 text-sm text-slate-300 placeholder-slate-650 focus:outline-none focus:border-industrial-blue/50 transition-colors"
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-slate-500" />
+        <div className="flex items-center gap-2 shrink-0">
           <select
             id="filter-status"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value as ActionStatus | 'All')}
-            className="bg-[#0F1320] border border-[#1E2536] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-industrial-blue/50"
+            className="bg-[#0F1320] border border-[#1E2536] rounded-lg px-3 py-2 text-xs text-slate-350 focus:outline-none focus:border-industrial-blue/50"
           >
-            <option value="All">All Status</option>
+            <option value="All">All Statuses</option>
             <option value="Open">Open</option>
             <option value="In Progress">In Progress</option>
             <option value="Resolved">Resolved</option>
@@ -125,9 +131,9 @@ export function ActionMatrix() {
             id="filter-priority"
             value={filterPriority}
             onChange={(e) => setFilterPriority(e.target.value as Priority | 'All')}
-            className="bg-[#0F1320] border border-[#1E2536] rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-industrial-blue/50"
+            className="bg-[#0F1320] border border-[#1E2536] rounded-lg px-3 py-2 text-xs text-slate-350 focus:outline-none focus:border-industrial-blue/50"
           >
-            <option value="All">All Priority</option>
+            <option value="All">All Priorities</option>
             <option value="Critical">Critical</option>
             <option value="High">High</option>
             <option value="Medium">Medium</option>
@@ -137,30 +143,30 @@ export function ActionMatrix() {
       </div>
 
       {/* Summary */}
-      <div className="text-xs text-slate-500">
-        Showing <span className="text-white font-medium">{filtered.length}</span> of {actionItems.length} actions ·
-        Active losses: <span className="text-red-400 font-mono font-medium">−{formatNumber(totalLoss)} TPD</span>
+      <div className="text-xs text-slate-500 font-mono">
+        Showing <span className="text-white font-medium">{filtered.length}</span> of {actionItems.length} actions · Active capacity shortfall: <span className="text-red-400 font-medium">−{formatNumber(activeLossTotal)} TPD</span>
       </div>
 
-      {/* Table — desktop/tablet (md+): horizontal scroll */}
+      {/* Desktop Table view */}
       <div className="panel overflow-hidden hidden md:block">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[900px]">
+          <table className="w-full text-xs min-w-[950px]">
             <thead>
               <tr className="border-b border-[#1E2536]">
                 {[
-                  { label: 'Loss Description', field: null },
+                  { label: 'Loss Index', field: 'lossIndex' as SortField },
+                  { label: 'Description', field: null },
                   { label: 'Stage', field: 'stage' as SortField },
-                  { label: 'Loss (TPD)', field: 'loss' as SortField },
-                  { label: 'Owner', field: 'owner' as SortField },
+                  { label: 'TPD Shortfall', field: 'loss' as SortField },
+                  { label: 'Ownership', field: 'owner' as SortField },
                   { label: 'Priority', field: 'priority' as SortField },
                   { label: 'Status', field: 'status' as SortField },
-                  { label: 'Due Date', field: 'dueDate' as SortField },
+                  { label: 'Verification Method', field: null },
                 ].map((h) => (
                   <th
                     key={h.label}
                     onClick={() => h.field && handleSort(h.field)}
-                    className={`text-left px-5 py-3 text-[10px] font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap ${h.field ? 'cursor-pointer hover:text-slate-300 transition-colors' : ''}`}
+                    className={`text-left px-4 py-3 text-[9px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap ${h.field ? 'cursor-pointer hover:text-slate-300' : ''}`}
                   >
                     <div className="flex items-center gap-1">
                       {h.label}
@@ -170,89 +176,56 @@ export function ActionMatrix() {
                 ))}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-[#1E2536]/30">
               {filtered.map((item, i) => (
                 <motion.tr
                   key={item.id}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: i * 0.04 }}
-                  className={`border-b border-[#1E2536]/50 hover:bg-[#1A2035]/50 transition-colors ${item.status === 'Resolved' ? 'opacity-60' : ''}`}
+                  transition={{ delay: i * 0.02 }}
+                  className={`hover:bg-[#1A2035]/20 transition-colors ${item.status === 'Resolved' ? 'opacity-50' : ''}`}
                 >
-                  <td className="px-5 py-3 max-w-xs">
-                    <div className="text-slate-300 leading-snug">{item.lossDescription}</div>
-                    {item.notes && (
-                      <div className="text-[10px] text-slate-600 mt-0.5">{item.notes}</div>
-                    )}
+                  <td className="px-4 py-3 font-mono font-bold text-indigo-400 whitespace-nowrap">{item.lossIndex}</td>
+                  <td className="px-4 py-3 max-w-xs text-slate-200">{item.lossDescription}</td>
+                  <td className="px-4 py-3 text-slate-400 whitespace-nowrap">{item.stage}</td>
+                  <td className="px-4 py-3 font-mono whitespace-nowrap font-bold text-red-400">
+                    {item.status === 'Resolved' ? <span className="text-emerald-400">Resolved</span> : `−${formatNumber(item.loss)}`}
                   </td>
-                  <td className="px-5 py-3 text-slate-400 whitespace-nowrap">{item.stage}</td>
-                  <td className="px-5 py-3 font-mono whitespace-nowrap">
-                    {item.loss > 0 ? (
-                      <span className={item.status === 'Resolved' ? 'text-industrial-green line-through' : 'text-red-400'}>
-                        {item.status === 'Resolved' ? '' : '−'}{formatNumber(item.loss)}
-                      </span>
-                    ) : (
-                      <span className="text-slate-600">—</span>
-                    )}
-                  </td>
-                  <td className="px-5 py-3">
+                  <td className="px-4 py-3 whitespace-nowrap">
                     <div className="text-slate-300">{item.owner}</div>
-                    <div className="text-[10px] text-slate-600">{item.department}</div>
+                    <div className="text-[10px] text-slate-500 font-mono">{item.department}</div>
                   </td>
-                  <td className="px-5 py-3 whitespace-nowrap"><PriorityBadge p={item.priority} /></td>
-                  <td className="px-5 py-3 whitespace-nowrap"><StatusBadge s={item.status} /></td>
-                  <td className="px-5 py-3 font-mono text-xs text-slate-400 whitespace-nowrap">{item.dueDate}</td>
+                  <td className="px-4 py-3 whitespace-nowrap"><PriorityBadge p={item.priority} /></td>
+                  <td className="px-4 py-3 whitespace-nowrap"><StatusBadge s={item.status} /></td>
+                  <td className="px-4 py-3 max-w-xs text-slate-400 text-[11px] leading-relaxed">{item.verificationMethod}</td>
                 </motion.tr>
               ))}
             </tbody>
           </table>
-          {filtered.length === 0 && (
-            <div className="text-center py-12 text-slate-500">No actions match your filters.</div>
-          )}
         </div>
       </div>
 
-      {/* Mobile card view (< md): stacked cards */}
+      {/* Mobile Card view */}
       <div className="md:hidden space-y-3">
-        {filtered.length === 0 ? (
-          <div className="text-center py-12 text-slate-500">No actions match your filters.</div>
-        ) : (
-          filtered.map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04 }}
-              className={`panel p-4 space-y-3 ${item.status === 'Resolved' ? 'opacity-60' : ''}`}
-            >
-              {/* Description */}
-              <div>
-                <div className="text-sm text-slate-200 leading-snug">{item.lossDescription}</div>
-                {item.notes && <div className="text-[10px] text-slate-500 mt-0.5">{item.notes}</div>}
-              </div>
-              {/* Meta row */}
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-                <span className="text-slate-500">{item.stage}</span>
-                <span className="font-mono font-semibold text-red-400">
-                  {item.loss > 0 ? `−${formatNumber(item.loss)} TPD` : '—'}
-                </span>
-              </div>
-              {/* Badges + owner */}
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-wrap gap-2">
-                  <PriorityBadge p={item.priority} />
-                  <StatusBadge s={item.status} />
-                </div>
-                <div className="text-right">
-                  <div className="text-xs text-slate-300">{item.owner}</div>
-                  <div className="text-[10px] text-slate-500">{item.department}</div>
-                </div>
-              </div>
-              {/* Due date */}
-              <div className="text-[10px] font-mono text-slate-500">Due: {item.dueDate}</div>
-            </motion.div>
-          ))
-        )}
+        {filtered.map((item) => (
+          <div key={item.id} className={`panel p-4 space-y-3 ${item.status === 'Resolved' ? 'opacity-50' : ''}`}>
+            <div className="flex justify-between items-start gap-2">
+              <span className="text-[9px] font-mono font-bold text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">
+                {item.lossIndex} · {item.stage}
+              </span>
+              <PriorityBadge p={item.priority} />
+            </div>
+            <p className="text-xs text-slate-200 leading-relaxed font-semibold">{item.lossDescription}</p>
+            <div className="bg-[#080B12] rounded p-2.5 border border-[#1E2536] text-[11px]">
+              <span className="text-[9px] text-slate-500 font-mono block uppercase">Verification Method</span>
+              <p className="text-slate-400 leading-normal mt-0.5">{item.verificationMethod}</p>
+            </div>
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-slate-500 font-mono">Owner: <strong className="text-slate-300">{item.owner}</strong></span>
+              <StatusBadge s={item.status} />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

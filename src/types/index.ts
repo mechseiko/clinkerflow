@@ -2,6 +2,7 @@
 export type Status = 'operational' | 'warning' | 'critical' | 'offline';
 export type Priority = 'Critical' | 'High' | 'Medium' | 'Low';
 export type ActionStatus = 'Open' | 'In Progress' | 'Resolved';
+export type ActionHorizon = 'Immediate' | 'Short-term' | 'Long-term';
 
 // ─── KPI ─────────────────────────────────────────────────────────────────────
 export interface KPICard {
@@ -12,6 +13,7 @@ export interface KPICard {
   trend?: number; // percent change
   trendDir?: 'up' | 'down';
   status?: Status;
+  formulaRef?: string; // e.g. "η_conv = Q_actual / Q_theoretical"
 }
 
 export interface DailyKPI {
@@ -28,12 +30,24 @@ export interface PlantStage {
   name: string;
   label: string;
   status: Status;
-  throughput: number; // TPD
+  throughput: number; // TPD (illustrative)
   targetThroughput: number;
   efficiency: number; // percent
   description: string;
+  operationalRole: string;
+  primaryLoss: string;
+  lossMechanisms: string[];
+  inputMaterial: string;
+  outputMaterial: string;
+  unitOfMeasure: string;
+  formulaRef: string;
   currentIssues: string[];
   parameters: StageParameter[];
+  instrumentation: string[];
+  typicalKPIs: string[];
+  relatedLossIndex: string; // e.g. "q3"
+  relatedDashboard: string;
+  relatedRootCauses: string[];
   x: number;
   y: number;
 }
@@ -56,8 +70,15 @@ export interface FlowConnection {
 export interface LossEntry {
   stage: string;
   stageId: string;
-  totalLoss: number; // TPD
+  lossIndex: string; // e.g. "q1", "q2"
+  totalLoss: number; // TPD (illustrative)
   percentage: number;
+  formula: string; // e.g. "q1 = Q_th × (1 − η_kiln)"
+  variables: FormulaVariable[];
+  engineeringInterpretation: string;
+  operationalExplanation: string;
+  assumptions: string[];
+  exampleCalculation: string;
   causes: LossCause[];
 }
 
@@ -70,10 +91,50 @@ export interface LossCause {
   actions: string[];
 }
 
+export interface FormulaVariable {
+  symbol: string;
+  description: string;
+  unit: string;
+  illustrativeValue?: string;
+}
+
+// ─── Framework Data ───────────────────────────────────────────────────────────
+export interface LossFormula {
+  index: string; // "q1" ... "q13"
+  name: string;
+  stageId: string;
+  formula: string;
+  variables: FormulaVariable[];
+  engineeringInterpretation: string;
+  benchmarkRange: string;
+  references: string[];
+  assumptions: string[];
+  exampleCalc: string;
+}
+
+export interface EngineeringAssumption {
+  id: string;
+  category: string;
+  assumption: string;
+  basis: string;
+}
+
+export interface FrameworkStage {
+  index: number;
+  stageId: string;
+  name: string;
+  lossIndex: string;
+  conversionStep: string;
+  inputUnit: string;
+  outputUnit: string;
+}
+
 // ─── Root Cause ───────────────────────────────────────────────────────────────
 export interface RootCauseNode {
   stageId: string;
   stageName: string;
+  lossIndex: string;
+  lossMechanism: string;
   failureCategories: FailureCategory[];
 }
 
@@ -87,9 +148,13 @@ export interface FailureCategory {
 export interface MechanicalFailure {
   id: string;
   reason: string;
+  mechanicalExplanation: string;
+  processExplanation: string;
   instrumentation: string;
-  recommendedInspection: string;
+  howToVerify: string;
+  typicalCorrectiveAction: string;
   estimatedDowntime: string;
+  literatureRef: string;
 }
 
 // ─── Recommendations ─────────────────────────────────────────────────────────
@@ -97,38 +162,48 @@ export interface Recommendation {
   id: string;
   stageId: string;
   stageName: string;
+  lossIndex: string;
   priority: Priority;
+  horizon: ActionHorizon;
   title: string;
-  bottleneck: string;
+  lossMechanism: string;
   causes: string[];
   actions: string[];
-  estimatedGain: number; // TPD
-  estimatedCostSaving?: string;
-  confidence: number; // percent
+  department: string;
+  expectedBenefit: string; // engineering metric, e.g. "+80 TPD throughput"
+  operationalImpact: string;
+  estimatedGain: number; // TPD (illustrative)
+  priorityRationale: string;
 }
 
 // ─── Action Matrix ───────────────────────────────────────────────────────────
 export interface ActionItem {
   id: string;
-  loss: number; // TPD
+  lossIndex: string; // e.g. "q5"
+  loss: number; // TPD (illustrative)
   lossDescription: string;
   stage: string;
   owner: string;
   department: string;
   priority: Priority;
   status: ActionStatus;
+  timeframe: string; // e.g. "Immediate", "1–3 days"
   dueDate: string;
+  verificationMethod: string;
+  kpiAffected: string;
   notes: string;
 }
 
 // ─── Chart Data ──────────────────────────────────────────────────────────────
 export interface WaterfallDataPoint {
   name: string;
+  lossIndex?: string;
   start: number;
   value: number;
   end: number;
   isTotal?: boolean;
   fill: string;
+  formula?: string;
 }
 
 export interface TrendDataPoint {
@@ -136,4 +211,10 @@ export interface TrendDataPoint {
   actual: number;
   target: number;
   efficiency: number;
+}
+
+export interface RadarDataPoint {
+  stage: string;
+  availability: number;
+  benchmark: number;
 }

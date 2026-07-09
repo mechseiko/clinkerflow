@@ -1,96 +1,160 @@
-import { PlantFlowVisualization } from '../components/plant/PlantFlowVisualization';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, ShieldAlert, Cpu, Layers, HardHat, FileDown, BookOpen, AlertTriangle } from 'lucide-react';
+import type { PlantStage } from '../types';
 import { plantStages } from '../data/plantData';
-import { statusColor, statusLabel, formatNumber } from '../utils/formatters';
-import { motion } from 'framer-motion';
+import { statusColor, formatNumber } from '../utils/formatters';
+import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
+import { PlantFlowVisualization } from '../components/plant/PlantFlowVisualization';
 
 export function PlantFlow() {
-  const operationalCount = plantStages.filter((s) => s.status === 'operational').length;
-  const warningCount = plantStages.filter((s) => s.status === 'warning').length;
-  const criticalCount = plantStages.filter((s) => s.status === 'critical').length;
+  const [selectedStage, setSelectedStage] = useState<PlantStage | null>(null);
+
+  React.useEffect(() => {
+    const handleSelect = (e: Event) => {
+      const customEvent = e as CustomEvent<PlantStage>;
+      setSelectedStage(customEvent.detail);
+    };
+    window.addEventListener('stageSelect', handleSelect);
+    return () => window.removeEventListener('stageSelect', handleSelect);
+  }, []);
+
+  const handleNodeClick = (stage: PlantStage) => {
+    setSelectedStage((prev) => (prev?.id === stage.id ? null : stage));
+  };
 
   return (
     <div className="space-y-6">
+      <DisclaimerBanner />
+
+      {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h2 className="text-lg sm:text-xl font-bold text-white">Plant Flow Visualization</h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Clinker → Mill → Additives → Silo → Packing → Dispatch · Click any stage for details</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <div className="flex items-center gap-2 text-xs text-slate-400">
-            <div className="w-2 h-2 rounded-full bg-industrial-green" />
-            <span>{operationalCount} OK</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-slate-400">
-            <div className="w-2 h-2 rounded-full bg-industrial-amber" />
-            <span>{warningCount} Warning</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs text-slate-400">
-            <div className="w-2 h-2 rounded-full bg-industrial-red" />
-            <span>{criticalCount} Critical</span>
-          </div>
+          <h2 className="text-xl font-bold text-white">Plant Flow Visualization</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Full Conversion Chain Model: Kiln downstream transport, grinding circuit, packing lines, and dispatch gate
+          </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Flow diagram */}
-        <div className="panel p-6">
-          <div className="panel-header -mx-6 -mt-6 mb-6 px-6">
-            <span className="text-sm font-semibold text-white">Process Flow</span>
-            <span className="text-[10px] font-mono text-slate-500">CLICK NODE FOR DETAILS</span>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Flow diagram panel */}
+        <div className="panel p-6 lg:col-span-2 flex flex-col justify-between">
+          <div className="panel-header -mx-6 -mt-6 mb-6 px-6 border-b border-[#1E2536] flex items-center justify-between">
+            <span className="text-xs font-bold font-mono text-slate-500 uppercase">Conversion Flow Sequence</span>
+            <span className="text-[10px] font-mono text-slate-500">CLICK STAGE NODE FOR ANALYSIS</span>
           </div>
-          <PlantFlowVisualization />
+
+          <div className="relative">
+            <PlantFlowVisualization />
+          </div>
         </div>
 
-        {/* Stage summary table */}
-        <div className="panel">
-          <div className="panel-header">
-            <span className="text-sm font-semibold text-white">Stage Performance Summary</span>
-          </div>
-          <div className="p-4 space-y-3">
-            {plantStages.map((stage, i) => {
-              const color = statusColor(stage.status);
-              const pct = Math.round((stage.throughput / stage.targetThroughput) * 100);
-              return (
-                <motion.div
-                  key={stage.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-3 rounded-lg bg-[#0A0D14] border border-[#1E2536]"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color, boxShadow: `0 0 6px ${color}88` }} />
-                      <span className="text-sm font-medium text-white">{stage.name}</span>
+        {/* Dynamic Detail Panel (always showing or placeholder) */}
+        <div className="panel flex flex-col justify-between h-full min-h-[500px]">
+          <AnimatePresence mode="wait">
+            {selectedStage ? (
+              <motion.div
+                key={selectedStage.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="p-5 space-y-5 flex-1 overflow-y-auto"
+              >
+                {/* Header */}
+                <div className="border-b border-[#1E2536] pb-3 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-mono font-bold text-slate-500 uppercase">{selectedStage.label} Node</span>
+                    <span className="text-[9px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">
+                      Loss Ref: {selectedStage.relatedLossIndex}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-white">{selectedStage.name}</h3>
+                  <div className="text-[10px] text-slate-500 font-mono">
+                    Model: <code className="text-industrial-blue">{selectedStage.formulaRef}</code>
+                  </div>
+                </div>
+
+                {/* Operations Description */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Operational Role</span>
+                  <p className="text-xs text-slate-400 leading-relaxed">{selectedStage.operationalRole}</p>
+                </div>
+
+                {/* Flow Parameters */}
+                <div className="space-y-2">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Process Materials</span>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="p-2 rounded bg-[#080B12] border border-[#1E2536]">
+                      <span className="text-[9px] text-slate-500 block">Input</span>
+                      <span className="text-slate-300 font-medium">{selectedStage.inputMaterial}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono" style={{ color }}>{stage.efficiency}%</span>
-                      <span className={`badge-${stage.status === 'operational' ? 'resolved' : stage.status === 'warning' ? 'high' : 'critical'}`}>
-                        {statusLabel(stage.status)}
-                      </span>
+                    <div className="p-2 rounded bg-[#080B12] border border-[#1E2536]">
+                      <span className="text-[9px] text-slate-500 block">Output</span>
+                      <span className="text-slate-300 font-medium">{selectedStage.outputMaterial}</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
-                    <span>{formatNumber(stage.throughput)} TPD actual</span>
-                    <span>Target: {formatNumber(stage.targetThroughput)} TPD</span>
+                </div>
+
+                {/* Technical parameters */}
+                <div className="space-y-2">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Shift Parameters</span>
+                  <div className="space-y-1.5 divide-y divide-[#1E2536]/30">
+                    {selectedStage.parameters.map((p) => {
+                      const statusColor = p.status === 'critical' ? 'text-red-400' : p.status === 'warning' ? 'text-amber-400' : 'text-slate-300';
+                      return (
+                        <div key={p.label} className="flex justify-between text-xs pt-1.5">
+                          <span className="text-slate-500">{p.label}</span>
+                          <span className={`font-mono font-medium ${statusColor}`}>
+                            {p.value} {p.unit}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
-                  <div className="h-1.5 bg-[#1A2035] rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${pct}%` }}
-                      transition={{ delay: i * 0.1 + 0.3, duration: 0.8 }}
-                      className="h-full rounded-full"
-                      style={{ backgroundColor: color }}
-                    />
+                </div>
+
+                {/* Primary Loss Mechanisms */}
+                <div className="space-y-2">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Primary Loss Mechanism</span>
+                  <div className="p-2.5 rounded bg-red-950/10 border border-red-500/10 text-xs text-red-300 leading-normal">
+                    {selectedStage.primaryLoss}
                   </div>
-                  {stage.currentIssues.length > 0 && (
-                    <div className="mt-2 text-[10px] text-amber-400 truncate">
-                      ⚠ {stage.currentIssues[0]}
-                    </div>
-                  )}
-                </motion.div>
-              );
-            })}
+                  <ul className="space-y-1 text-xs text-slate-400 pl-3 list-disc">
+                    {selectedStage.lossMechanisms.slice(0, 2).map((m, i) => (
+                      <li key={i}>{m}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Typical KPIs & Instrumentation */}
+                <div className="grid grid-cols-2 gap-4 border-t border-[#1E2536] pt-3 text-xs">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Instrumentation</span>
+                    <span className="text-slate-400 block text-[11px] leading-normal">{selectedStage.instrumentation[0] || 'N/A'}</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Typical KPIs</span>
+                    <span className="text-slate-400 block text-[11px] leading-normal">{selectedStage.typicalKPIs[0] || 'N/A'}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <div className="p-8 text-center flex-1 flex flex-col items-center justify-center space-y-3">
+                <Layers className="w-8 h-8 text-slate-700" />
+                <div>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase font-mono">Stage Analysis Panel</h4>
+                  <p className="text-xs text-slate-600 max-w-[200px] mx-auto mt-1 leading-normal">
+                    Click any node in the plant flow diagram to load operational roles, material balance inputs, and instrumentation lists.
+                  </p>
+                </div>
+              </div>
+            )}
+          </AnimatePresence>
+          <div className="p-4 border-t border-[#1E2536] bg-[#0A0D14] rounded-b-lg">
+            <span className="text-[9px] font-mono text-slate-600 block text-center leading-normal">
+              Nodes reflect the physical conversion equipment defined in the DCP evaluation framework.
+            </span>
           </div>
         </div>
       </div>
