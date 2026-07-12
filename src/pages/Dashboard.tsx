@@ -55,7 +55,7 @@ export function Dashboard() {
             </div>
           </div>
           <div className="border-t border-[#1E2536] pt-3 text-[10px] text-slate-500 font-mono">
-            Target: {formatNumber(targetKpi.value as number)} TPD ({( (outputKpi.value as number) / (targetKpi.value as number) * 100 ).toFixed(1)}% met)
+            Target: {formatNumber(targetKpi.value as number)} TPD ({((outputKpi.value as number) / (targetKpi.value as number) * 100).toFixed(1)}% met)
           </div>
         </div>
 
