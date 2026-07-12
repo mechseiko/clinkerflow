@@ -26,9 +26,8 @@ function StageNode({ stage, onClick, selected, index }: StageNodeProps) {
       <button
         id={`plant-node-${stage.id}`}
         onClick={() => onClick(stage)}
-        className={`w-full text-left transition-all relative rounded-xl bg-[#0F1320] border p-4 group ${
-          selected ? 'scale-[1.01]' : 'hover:border-slate-700'
-        }`}
+        className={`w-full text-left transition-all relative rounded-xl bg-[#0F1320] border p-4 group ${selected ? 'scale-[1.01]' : 'hover:border-slate-700'
+          }`}
         style={{
           borderColor: selected ? color : '#1E2536',
           boxShadow: selected ? `0 0 16px ${color}15` : 'none',

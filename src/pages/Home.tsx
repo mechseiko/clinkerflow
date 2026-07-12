@@ -10,7 +10,7 @@ import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
 export function Home() {
   const activeLosses = actionItems.filter((a) => a.status !== 'Resolved');
   const criticalAlerts = activeLosses.slice(0, 3);
-  
+
   const effKpi = todayKPIs.find(k => k.id === 'efficiency')!;
   const outputKpi = todayKPIs.find(k => k.id === 'output')!;
   const targetKpi = todayKPIs.find(k => k.id === 'target')!;
@@ -36,9 +36,6 @@ export function Home() {
       >
         <div className="flex flex-col md:flex-row gap-6 items-start justify-between">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-industrial-blue/20 text-industrial-blue border border-industrial-blue/30 text-[10px] font-mono font-bold uppercase tracking-wider">
-              Dangote Cement University Challenge 2026
-            </div>
             <h3 className="text-base font-bold text-white">Digital Conversion Efficiency Framework</h3>
             <p className="text-xs leading-relaxed text-slate-400">
               This platform serves as the digital operational implementation of the clinker-to-cement conversion model. By establishing 13 sequential loss stages (q1–q13) across grinding, packing, and dispatch logistics, we identify the exact mechanical and operational root causes restricting dispatch throughput.
@@ -71,7 +68,7 @@ export function Home() {
             <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Conversion Efficiency KPI</span>
             <h4 className="text-sm font-semibold text-white">Overall System Recovery</h4>
           </div>
-          
+
           <div className="py-6 flex flex-col items-center justify-center">
             <div className="relative w-36 h-36 flex items-center justify-center rounded-full border-4 border-[#1E2536] before:absolute before:inset-1 before:rounded-full before:border before:border-dashed before:border-slate-800">
               {/* Glow circle overlay */}
@@ -133,11 +130,11 @@ export function Home() {
                 const statusBg = isDesign || isEnd
                   ? 'bg-industrial-blue'
                   : loss > 150
-                  ? 'bg-industrial-red animate-pulse'
-                  : loss > 10
-                  ? 'bg-industrial-amber'
-                  : 'bg-industrial-green';
-                
+                    ? 'bg-industrial-red animate-pulse'
+                    : loss > 10
+                      ? 'bg-industrial-amber'
+                      : 'bg-industrial-green';
+
                 return (
                   <div
                     key={node.stage}

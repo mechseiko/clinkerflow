@@ -73,7 +73,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
               className="flex-1 min-w-0"
             >
               <div className="font-bold text-white text-sm leading-tight tracking-wide">ClinkerFlow</div>
-              <div className="text-[10px] text-slate-500 font-mono tracking-wider">DCP UNIVERSITY</div>
+              <div className="text-[10px] text-slate-500 font-mono tracking-wider"></div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -106,17 +106,15 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                   id={item.id}
                   title={isDesktop && collapsed ? item.label : undefined}
                   className={() =>
-                    `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
-                      isActive
-                        ? 'text-industrial-blue bg-industrial-blue/10 border border-industrial-blue/20'
-                        : 'text-slate-400 hover:text-white hover:bg-[#1A2035] border border-transparent'
+                    `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${isActive
+                      ? 'text-industrial-blue bg-industrial-blue/10 border border-industrial-blue/20'
+                      : 'text-slate-400 hover:text-white hover:bg-[#1A2035] border border-transparent'
                     }`
                   }
                 >
                   <item.icon
-                    className={`w-4 h-4 shrink-0 transition-colors ${
-                      isActive ? 'text-industrial-blue' : 'text-slate-500 group-hover:text-slate-300'
-                    }`}
+                    className={`w-4 h-4 shrink-0 transition-colors ${isActive ? 'text-industrial-blue' : 'text-slate-500 group-hover:text-slate-300'
+                      }`}
                   />
                   <AnimatePresence>
                     {(!isDesktop || !collapsed) && (
@@ -153,7 +151,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                 exit={{ opacity: 0 }}
                 className="text-[9px] text-slate-500 font-mono leading-tight"
               >
-                SHIFT DEMO MODE
+                DEMO
               </motion.div>
             )}
           </AnimatePresence>
