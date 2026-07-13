@@ -15,6 +15,8 @@ import {
   ChevronRight,
   Zap,
   X,
+  Package,
+  Cpu,
 } from 'lucide-react';
 
 const navGroups = [
@@ -24,6 +26,7 @@ const navGroups = [
       { to: '/', icon: LayoutDashboard, label: 'Executive Overview', id: 'nav-home' },
       { to: '/plant-flow', icon: GitBranch, label: 'Plant Flow', id: 'nav-plant' },
       { to: '/dashboard', icon: BarChart3, label: 'Shift Dashboard', id: 'nav-dashboard' },
+      { to: '/packaging', icon: Package, label: 'Packaging & Dispatch', id: 'nav-packaging' },
     ],
   },
   {
@@ -61,7 +64,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-5 border-b border-[#1E2536]">
         <div className="w-8 h-8 shrink-0 rounded-lg bg-industrial-blue/10 border border-industrial-blue/30 flex items-center justify-center">
-          <Zap className="w-4 h-4 text-industrial-blue" />
+          <Cpu className="w-4 h-4 text-industrial-blue" />
         </div>
         <AnimatePresence>
           {(!isDesktop || !collapsed) && (

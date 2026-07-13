@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, ShieldAlert, Cpu } from 'lucide-react';
+import { Menu, ShieldAlert, Cpu, Zap } from 'lucide-react';
 import { DisclaimerBanner } from '../ui/DisclaimerBanner';
 
 interface TopbarProps {
@@ -22,8 +22,8 @@ export function Topbar({ onMobileOpen }: TopbarProps) {
         </button>
 
         <div className="hidden sm:flex items-center gap-2 text-xs font-mono font-medium text-slate-400">
-          <Cpu className="w-3.5 h-3.5 text-industrial-blue" />
-          <span></span>
+          <Zap className="w-3.5 h-3.5 text-industrial-blue" />
+          <span>Team Dynamo</span>
         </div>
       </div>
 

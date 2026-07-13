@@ -8,6 +8,7 @@ import { RootCause } from './pages/RootCause';
 import { Recommendations } from './pages/Recommendations';
 import { ActionMatrix } from './pages/ActionMatrix';
 import { Documentation } from './pages/Documentation';
+import { Packaging } from './pages/Packaging';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="plant-flow" element={<PlantFlow />} />
           <Route path="loss-tree" element={<LossTree />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="packaging" element={<Packaging />} />
           <Route path="root-cause" element={<RootCause />} />
           <Route path="recommendations" element={<Recommendations />} />
           <Route path="actions" element={<ActionMatrix />} />
