@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronRight, CheckCircle, X, ChevronUp } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import type { PlantStage, Status } from '../../types';
 import { plantStages, flowConnections } from '../../data/plantData';
 import { statusColor } from '../../utils/formatters';
