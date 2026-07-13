@@ -29,22 +29,6 @@ export function Topbar({ onMobileOpen }: TopbarProps) {
 
       {/* Right section: Shift selector + Demo mode indicator */}
       <div className="flex items-center gap-4">
-        {/* <div className="flex items-center gap-1.5 bg-[#0F1320] border border-[#1E2536] p-1 rounded-lg">
-          <span className="text-[10px] font-mono text-slate-500 uppercase px-2 font-bold">Shift</span>
-          {(['A', 'B', 'C'] as const).map((shift) => (
-            <button
-              key={shift}
-              onClick={() => setSelectedShift(shift)}
-              className={`text-xs font-mono font-bold px-2 py-0.5 rounded transition-all ${selectedShift === shift
-                ? 'bg-industrial-blue/15 text-industrial-blue border border-industrial-blue/30'
-                : 'text-slate-400 hover:text-slate-200 border border-transparent'
-                }`}
-            >
-              {shift}
-            </button>
-          ))}
-        </div> */}
-
         {/* Demo notification banner */}
         <div className="flex items-center gap-1.5 px-3 py-1 rounded bg-amber-500/10 border border-amber-500/25">
           <ShieldAlert className="w-3 h-3 text-amber-400" />
