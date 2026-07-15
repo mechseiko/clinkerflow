@@ -36,7 +36,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q1',
     name: 'Clinker Cooler Loss',
     stageId: 'cooler',
-    formula: 'q1 = Q_kln × (1 − η_cool)',
+    formula: 'q_1 = Q_{kln} \\times (1 - \\eta_{cool})',
     variables: [
       { symbol: 'q1',     description: 'Cooler stage throughput loss',   unit: 'TPD',         illustrativeValue: '55' },
       { symbol: 'Q_kln',  description: 'Kiln clinker output rate',        unit: 'TPD',         illustrativeValue: '3,800' },
@@ -52,7 +52,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q2',
     name: 'Clinker Silo Storage Loss',
     stageId: 'clinker-silo',
-    formula: 'q2 = Q_in − Q_reclaim = ΔS / Δt',
+    formula: 'q_2 = Q_{in} - Q_{reclaim} = \\dfrac{\\Delta S}{\\Delta t}',
     variables: [
       { symbol: 'q2',       description: 'Silo inventory reduction loss',   unit: 'TPD',  illustrativeValue: '20' },
       { symbol: 'Q_in',     description: 'Clinker fed into silo per day',   unit: 'TPD',  illustrativeValue: '3,743' },
@@ -69,7 +69,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q3',
     name: 'Conveyor Transport Loss',
     stageId: 'conveyor',
-    formula: 'q3 = Q_in × (1 − η_conv)',
+    formula: 'q_3 = Q_{in} \\times (1 - \\eta_{conv})',
     variables: [
       { symbol: 'q3',     description: 'Material lost during conveying',  unit: 'TPD',         illustrativeValue: '15' },
       { symbol: 'Q_in',   description: 'Material entering conveyor',       unit: 'TPD',         illustrativeValue: '3,723' },
@@ -85,7 +85,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q4',
     name: 'Weight Feeder Proportioning Loss',
     stageId: 'feeders',
-    formula: 'q4 = |Q_set − Q_actual| = Q_in × ε_feed',
+    formula: 'q_4 = |Q_{set} - Q_{actual}| = Q_{in} \\times \\varepsilon_{feed}',
     variables: [
       { symbol: 'q4',      description: 'Feeder dosing deviation loss',    unit: 'TPD',         illustrativeValue: '12' },
       { symbol: 'Q_set',   description: 'Set-point feed rate',             unit: 'TPD',         illustrativeValue: '3,708' },
@@ -102,7 +102,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q5',
     name: 'Ball Mill Grinding Loss',
     stageId: 'mill',
-    formula: 'q5 = Q_feed × (1 − η_mill) ; η_mill = P_useful / P_total',
+    formula: 'q_5 = Q_{feed} \\times (1 - \\eta_{mill}) \\quad \\eta_{mill} = \\dfrac{P_{useful}}{P_{total}}',
     variables: [
       { symbol: 'q5',      description: 'Mill throughput shortfall',        unit: 'TPD',         illustrativeValue: '215' },
       { symbol: 'Q_feed',  description: 'Total feed to ball mill',          unit: 'TPD',         illustrativeValue: '3,696' },
@@ -120,7 +120,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q6',
     name: 'Classifier / Separator Loss',
     stageId: 'classifier',
-    formula: 'q6 = Q_mill × (1 − η_sep) ; η_sep = (f − c) / (r − c)',
+    formula: 'q_6 = Q_{mill} \\times (1 - \\eta_{sep}) \\quad \\eta_{sep} = \\dfrac{f - c}{r - c}',
     variables: [
       { symbol: 'q6',    description: 'Separator recirculation loss',        unit: 'TPD',         illustrativeValue: '130' },
       { symbol: 'Q_mill',description: 'Mill output entering separator',      unit: 'TPD',         illustrativeValue: '3,481' },
@@ -139,7 +139,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q7',
     name: 'Bag Filter Emission Loss',
     stageId: 'bag-filter',
-    formula: 'q7 = Q_air × C_outlet × t / 1000',
+    formula: 'q_7 = \\dfrac{Q_{air} \\times C_{outlet} \\times t}{1{,}000{,}000}',
     variables: [
       { symbol: 'q7',       description: 'Product lost through filter to atmosphere', unit: 'TPD',         illustrativeValue: '8' },
       { symbol: 'Q_air',    description: 'Volumetric gas flow through filter',        unit: 'm³/s',        illustrativeValue: '12.5' },
@@ -156,7 +156,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q8',
     name: 'Bucket Elevator Transport Loss',
     stageId: 'bucket-elev',
-    formula: 'q8 = Q_in × (1 − η_elev)',
+    formula: 'q_8 = Q_{in} \\times (1 - \\eta_{elev})',
     variables: [
       { symbol: 'q8',     description: 'Material lost in elevator',        unit: 'TPD',         illustrativeValue: '10' },
       { symbol: 'Q_in',   description: 'Cement entering elevator',         unit: 'TPD',         illustrativeValue: '3,343' },
@@ -172,7 +172,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q9',
     name: 'Cement Silo Storage Loss',
     stageId: 'cement-silo',
-    formula: 'q9 = Q_in − Q_extracted ; includes aeration losses',
+    formula: 'q_9 = Q_{in} - Q_{extracted} \\quad (\\text{incl. aeration losses})',
     variables: [
       { symbol: 'q9',        description: 'Silo storage and extraction loss',  unit: 'TPD',  illustrativeValue: '75' },
       { symbol: 'Q_in',      description: 'Cement fed into silo',              unit: 'TPD',  illustrativeValue: '3,333' },
@@ -188,7 +188,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q10',
     name: 'Packaging Loss',
     stageId: 'packaging',
-    formula: 'q10 = Q_in × R_reject + Q_line_loss ; R_reject = N_rej / N_total',
+    formula: 'q_{10} = Q_{in} \\times R_{reject} + Q_{line\\_loss} \\quad R_{reject} = \\dfrac{N_{rej}}{N_{total}}',
     variables: [
       { symbol: 'q10',       description: 'Total packing stage loss',         unit: 'TPD',  illustrativeValue: '320' },
       { symbol: 'Q_in',      description: 'Cement available to packers',      unit: 'TPD',  illustrativeValue: '3,258' },
@@ -206,7 +206,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q11',
     name: 'Weighbridge Measurement Loss',
     stageId: 'weighbridge',
-    formula: 'q11 = ΔW_truck × N_trucks ; ΔW = |W_declared − W_actual|',
+    formula: 'q_{11} = \\Delta W_{truck} \\times N_{trucks} \\quad \\Delta W = |W_{declared} - W_{actual}|',
     variables: [
       { symbol: 'q11',      description: 'Weighbridge discrepancy loss',    unit: 'TPD',  illustrativeValue: '5' },
       { symbol: 'ΔW_truck', description: 'Average per-truck weight error',  unit: 'tonnes', illustrativeValue: '0.06' },
@@ -222,7 +222,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q12',
     name: 'Dispatch Loading Loss',
     stageId: 'dispatch',
-    formula: 'q12 = C_dispatch × (1 − η_dispatch) ; η_dispatch = T_loading / T_available',
+    formula: 'q_{12} = C_{dispatch} \\times (1 - \\eta_{dispatch}) \\quad \\eta_{dispatch} = \\dfrac{T_{loading}}{T_{available}}',
     variables: [
       { symbol: 'q12',          description: 'Dispatch capacity loss',          unit: 'TPD',         illustrativeValue: '52' },
       { symbol: 'C_dispatch',   description: 'Theoretical dispatch capacity',   unit: 'TPD',         illustrativeValue: '5,000' },
@@ -240,7 +240,7 @@ export const lossFormulas: LossFormula[] = [
     index: 'q13',
     name: 'Logistics / Fleet Turnaround Loss',
     stageId: 'logistics',
-    formula: 'q13 = N_cap × L_truck × (T_actual − T_target) / T_target',
+    formula: 'q_{13} = N_{cap} \\times L_{truck} \\times \\dfrac{T_{actual} - T_{target}}{T_{target}}',
     variables: [
       { symbol: 'q13',     description: 'Fleet turnaround constraint loss',   unit: 'TPD',    illustrativeValue: '18' },
       { symbol: 'N_cap',   description: 'Target truck departures per day',    unit: 'trucks', illustrativeValue: '100' },

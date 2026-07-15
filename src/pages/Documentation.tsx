@@ -4,6 +4,7 @@ import { FileText, BookOpen, Layers, Settings, ShieldAlert, Award } from 'lucide
 import { lossFormulas, engineeringAssumptions } from '../data/frameworkData';
 import { plantStages } from '../data/plantData';
 import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
+import { MathFormula } from '../components/ui/MathFormula';
 
 const docTabs = [
   { id: 'overview', label: 'Overview', icon: Award },
@@ -123,8 +124,8 @@ export function Documentation() {
                       <span className="font-bold text-white">{f.name}</span>
                       <span className="font-mono text-indigo-400 font-bold">{f.index}</span>
                     </div>
-                    <div className="bg-[#0A0D14] p-2 rounded text-center font-mono text-xs text-slate-200 border border-[#1E2536]">
-                      {f.formula}
+                    <div className="bg-[#0A0D14] p-3 rounded border border-[#1E2536] overflow-x-auto flex items-center justify-center min-h-[3rem]">
+                      <MathFormula math={f.formula} block={true} className="text-slate-100" />
                     </div>
                     <p className="text-slate-400 leading-normal text-[11px]">{f.engineeringInterpretation}</p>
                     <div className="text-[10px] text-slate-500 font-mono">
