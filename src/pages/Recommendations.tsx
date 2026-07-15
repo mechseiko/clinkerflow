@@ -26,9 +26,8 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase ${
-                isCritical ? 'bg-red-500/10 text-red-400' : isHigh ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'
-              }`}>
+              <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase ${isCritical ? 'bg-red-500/10 text-red-400' : isHigh ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'
+                }`}>
                 {rec.priority}
               </span>
               <span className="text-[10px] text-slate-500 font-mono">
@@ -105,7 +104,7 @@ export function Recommendations() {
 
   return (
     <div className="space-y-6">
-      <DisclaimerBanner />
+      {/* <DisclaimerBanner /> */}
 
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">

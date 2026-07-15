@@ -118,7 +118,7 @@ export function RootCause() {
 
   return (
     <div className="space-y-6">
-      <DisclaimerBanner />
+      {/* <DisclaimerBanner /> */}
 
       {/* Header */}
       <div>
@@ -139,11 +139,10 @@ export function RootCause() {
               key={r.stageId}
               id={`rc-stage-${r.stageId}`}
               onClick={() => setSelectedStage(r.stageId)}
-              className={`flex flex-col items-start gap-1 p-2.5 rounded-lg border text-left transition-all duration-200 ${
-                isActive
+              className={`flex flex-col items-start gap-1 p-2.5 rounded-lg border text-left transition-all duration-200 ${isActive
                   ? 'text-white border-current'
                   : 'text-slate-400 border-[#1E2536] hover:border-slate-500 hover:text-slate-200'
-              }`}
+                }`}
               style={isActive ? { borderColor: color, backgroundColor: `${color}10`, color } : {}}
             >
               <span className="text-[9px] font-mono text-slate-500 uppercase block leading-none font-bold">

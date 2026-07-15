@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, ShieldAlert, Cpu, Zap } from 'lucide-react';
+import { Menu, ShieldAlert, Tractor } from 'lucide-react';
 import { DisclaimerBanner } from '../ui/DisclaimerBanner';
 
 interface TopbarProps {
@@ -7,7 +7,6 @@ interface TopbarProps {
 }
 
 export function Topbar({ onMobileOpen }: TopbarProps) {
-  const [selectedShift, setSelectedShift] = useState<'A' | 'B' | 'C'>('A');
 
   return (
     <header className="bg-[#080B12] border-b border-[#1E2536] h-16 flex items-center justify-between px-4 sm:px-6 relative shrink-0 z-30">
@@ -22,13 +21,13 @@ export function Topbar({ onMobileOpen }: TopbarProps) {
         </button>
 
         <div className="hidden sm:flex items-center gap-2 text-xs font-mono font-medium text-slate-400">
-          <Zap className="w-3.5 h-3.5 text-industrial-blue" />
-          <span>Team Dynamo</span>
+          <Tractor className="w-3.5 h-3.5 text-industrial-blue" />
+          <span>Team Dynamo - Clinker to Cement Conversion Framework</span>
         </div>
       </div>
 
       {/* Right section: Shift selector + Demo mode indicator */}
-      <div className="flex items-center gap-4">
+      <div title="Values shown are illustrative engineering examples developed for demonstration purposes and do not represent actual Dangote Cement operational data." className="flex items-center gap-4">
         {/* Demo notification banner */}
         <div className="flex items-center gap-1.5 px-3 py-1 rounded bg-amber-500/10 border border-amber-500/25">
           <ShieldAlert className="w-3 h-3 text-amber-400" />

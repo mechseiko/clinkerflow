@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Package, 
-  Activity, 
-  Cpu, 
-  AlertTriangle, 
-  CheckCircle, 
-  Clock, 
-  Truck, 
-  Barcode, 
+import {
+  Package,
+  Activity,
+  Cpu,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Truck,
+  Barcode,
   AlertCircle,
   RefreshCw,
   TrendingDown,
@@ -167,17 +167,17 @@ export function Packaging() {
         prev.map((line) =>
           line.id === 3
             ? {
-                ...line,
-                status: 'operational',
-                nozzlesActive: 12,
-                throughput: 1510,
-                issue: undefined,
-                nozzleTelemetry: Array.from({ length: 12 }, (_, idx) => ({
-                  nozzleId: idx + 1,
-                  temp: 41,
-                  state: 'ok',
-                })),
-              }
+              ...line,
+              status: 'operational',
+              nozzlesActive: 12,
+              throughput: 1510,
+              issue: undefined,
+              nozzleTelemetry: Array.from({ length: 12 }, (_, idx) => ({
+                nozzleId: idx + 1,
+                temp: 41,
+                state: 'ok',
+              })),
+            }
             : line
         )
       );
@@ -240,12 +240,12 @@ export function Packaging() {
         prev.map((item) =>
           item.id === 'opc'
             ? {
-                ...item,
-                stock: item.stock + 50000,
-                status: 'normal',
-                poActive: false,
-                poDetails: undefined,
-              }
+              ...item,
+              stock: item.stock + 50000,
+              status: 'normal',
+              poActive: false,
+              poDetails: undefined,
+            }
             : item
         )
       );
@@ -372,7 +372,7 @@ export function Packaging() {
 
   return (
     <div className="space-y-6">
-      <DisclaimerBanner />
+      {/* <DisclaimerBanner /> */}
 
       {/* Header Info Banner */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -382,8 +382,8 @@ export function Packaging() {
             Packaging & Dispatch Chain Monitoring
           </h2>
           <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-normal">
-            <span className="text-industrial-blue font-semibold">ClinkerFlow: Real-Time Monitoring</span> · 
-            A lightweight OEE monitoring layer over the Packing and Dispatch chain. 
+            <span className="text-industrial-blue font-semibold">ClinkerFlow: Real-Time Monitoring</span> ·
+            A lightweight OEE monitoring layer over the Packing and Dispatch chain.
             It surfaces downstream bottlenecks and exceptions before they cascade upstream and force kiln shut-ins.
           </p>
         </div>
@@ -425,9 +425,8 @@ export function Packaging() {
             <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider block">
               Bag Stock Alerts
             </span>
-            <div className={`text-2xl font-bold font-mono mt-1.5 flex items-baseline gap-1 ${
-              bagStocks.some(s => s.status === 'critical') ? 'text-red-400' : 'text-amber-400'
-            }`}>
+            <div className={`text-2xl font-bold font-mono mt-1.5 flex items-baseline gap-1 ${bagStocks.some(s => s.status === 'critical') ? 'text-red-400' : 'text-amber-400'
+              }`}>
               {bagStocks.filter(s => s.status !== 'normal').length}
               <span className="text-xs text-slate-500 font-normal"> Alerts Triggered</span>
             </div>
@@ -497,10 +496,10 @@ export function Packaging() {
             const isOffline = line.status === 'offline';
             const isCritical = line.status === 'critical';
             const isWarning = line.status === 'warning';
-            
+
             const cardBorder = isOffline ? 'border-red-900/40 bg-red-950/5' : isCritical ? 'border-red-500/30' : isWarning ? 'border-amber-500/30' : 'border-[#1E2536]';
             const statusLabelColor = isOffline || isCritical ? 'text-red-400' : isWarning ? 'text-amber-400' : 'text-green-400';
-            
+
             return (
               <div key={line.id} className={`p-4 rounded-lg border ${cardBorder} space-y-4`}>
                 {/* Header info */}
@@ -508,9 +507,8 @@ export function Packaging() {
                   <div>
                     <h4 className="text-sm font-bold text-white flex items-center gap-2">
                       {line.name}
-                      <span className={`w-1.5 h-1.5 rounded-full ${
-                        isOffline || isCritical ? 'bg-red-500 animate-pulse' : isWarning ? 'bg-amber-500 animate-pulse' : 'bg-green-500'
-                      }`} />
+                      <span className={`w-1.5 h-1.5 rounded-full ${isOffline || isCritical ? 'bg-red-500 animate-pulse' : isWarning ? 'bg-amber-500 animate-pulse' : 'bg-green-500'
+                        }`} />
                     </h4>
                     <span className="text-[10px] text-slate-500 font-mono">
                       Run-Hour Meter: <strong className="text-slate-300">{line.runHours.toFixed(1)} hrs</strong>
@@ -527,9 +525,8 @@ export function Packaging() {
 
                 {/* Alarm Message */}
                 {line.issue && (
-                  <div className={`p-2.5 rounded text-[11px] leading-normal flex items-start gap-1.5 ${
-                    isOffline || isCritical ? 'bg-red-950/20 text-red-300 border border-red-900/30' : 'bg-amber-950/20 text-amber-300 border border-amber-900/30'
-                  }`}>
+                  <div className={`p-2.5 rounded text-[11px] leading-normal flex items-start gap-1.5 ${isOffline || isCritical ? 'bg-red-950/20 text-red-300 border border-red-900/30' : 'bg-amber-950/20 text-amber-300 border border-amber-900/30'
+                    }`}>
                     <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                     <span>{line.issue}</span>
                   </div>
@@ -551,8 +548,8 @@ export function Packaging() {
                     {line.nozzleTelemetry.map((n) => {
                       const dotBg = n.state === 'jammed' ? 'bg-red-500 shadow-[0_0_6px_#EF4444]' : n.state === 'idle' ? 'bg-slate-700' : 'bg-green-500 shadow-[0_0_6px_#10B981]';
                       return (
-                        <div 
-                          key={n.nozzleId} 
+                        <div
+                          key={n.nozzleId}
                           title={`Nozzle ${n.nozzleId}: ${n.temp}°C [${n.state.toUpperCase()}]`}
                           className="flex flex-col items-center justify-center p-1.5 bg-[#080B12] rounded border border-[#1E2536] hover:border-slate-600 transition-colors cursor-help"
                         >
@@ -614,7 +611,7 @@ export function Packaging() {
               const fillPercent = Math.min(100, Math.round((item.stock / 60000) * 100));
               const progressColor = item.status === 'critical' ? 'bg-red-500' : item.status === 'warning' ? 'bg-amber-500' : 'bg-green-500';
               const borderCol = item.status === 'critical' ? 'border-red-900/50 bg-red-950/5' : item.status === 'warning' ? 'border-amber-900/50' : 'border-[#1E2536]';
-              
+
               return (
                 <div key={item.id} className={`p-4 rounded-lg border ${borderCol} space-y-3`}>
                   <div className="flex justify-between items-start">
@@ -626,9 +623,8 @@ export function Packaging() {
                     </div>
 
                     <div className="text-right">
-                      <span className={`text-sm font-mono font-bold block ${
-                        item.status === 'critical' ? 'text-red-400' : item.status === 'warning' ? 'text-amber-400' : 'text-slate-300'
-                      }`}>
+                      <span className={`text-sm font-mono font-bold block ${item.status === 'critical' ? 'text-red-400' : item.status === 'warning' ? 'text-amber-400' : 'text-slate-300'
+                        }`}>
                         {item.stock.toLocaleString()} <span className="text-[10px] text-slate-500 font-normal">bags</span>
                       </span>
                       <span className="text-[9px] font-mono text-slate-500">
@@ -639,7 +635,7 @@ export function Packaging() {
 
                   {/* Stock Bar */}
                   <div className="h-2 bg-[#161B2B] rounded-full overflow-hidden">
-                    <div 
+                    <div
                       className={`h-full rounded-full transition-all duration-700 ${progressColor}`}
                       style={{ width: `${fillPercent}%` }}
                     />
@@ -718,7 +714,7 @@ export function Packaging() {
                 Recent RFID Dispatch activity logs
               </span>
 
-              <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-[220px] md:max-h-[400px] overflow-y-auto pr-1">
                 <AnimatePresence initial={false}>
                   {gateLogs.map((log) => {
                     const isWarning = log.status === 'warning';
@@ -729,9 +725,8 @@ export function Packaging() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className={`p-2.5 rounded bg-[#080B12] border text-[11px] flex items-center justify-between gap-3 ${
-                          isWarning ? 'border-amber-500/20 bg-amber-950/5' : 'border-[#1E2536]'
-                        }`}
+                        className={`p-2.5 rounded bg-[#080B12] border text-[11px] flex items-center justify-between gap-3 ${isWarning ? 'border-amber-500/20 bg-amber-950/5' : 'border-[#1E2536]'
+                          }`}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div className="p-1 rounded bg-[#0F1320] border border-[#1E2536] shrink-0 text-slate-400">
@@ -748,11 +743,10 @@ export function Packaging() {
                         </div>
 
                         <div className="text-right shrink-0">
-                          <span className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold block ${
-                            log.action === 'Gate Out' ? 'text-green-400 bg-green-500/10' :
+                          <span className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold block ${log.action === 'Gate Out' ? 'text-green-400 bg-green-500/10' :
                             log.action === 'Loading Bay' ? 'text-industrial-blue bg-industrial-blue/10' :
-                            'text-slate-400 bg-slate-500/10'
-                          }`}>
+                              'text-slate-400 bg-slate-500/10'
+                            }`}>
                             {log.action}
                           </span>
                           <span className="text-[9px] font-mono text-slate-500 mt-1 block">{log.timestamp}</span>
@@ -808,12 +802,12 @@ export function Packaging() {
                     </div>
 
                     <div className="h-3 bg-[#0F1320] border border-[#1E2536] rounded-full overflow-hidden relative">
-                      <div 
-                        className={`h-full rounded-full transition-all duration-500 ${barColor}`} 
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${barColor}`}
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
-                    
+
                     <span className="text-[10px] text-slate-500 font-mono block">
                       Formula: <code className="text-[#10B981]">{item.formula}</code> · {item.desc}
                     </span>
@@ -838,15 +832,15 @@ export function Packaging() {
             </div>
 
             <div className="border-t border-[#1E2536] pt-3 flex flex-col gap-2">
-              <a 
-                href="/loss-tree" 
+              <a
+                href="/loss-tree"
                 className="text-[11px] font-mono font-bold text-industrial-blue hover:text-white flex items-center gap-1.5 transition-colors"
               >
                 Go to Waterfall Loss Tree
                 <ArrowRight className="w-3 h-3" />
               </a>
-              <a 
-                href="/recommendations" 
+              <a
+                href="/recommendations"
                 className="text-[11px] font-mono font-bold text-industrial-blue hover:text-white flex items-center gap-1.5 transition-colors"
               >
                 View Action Plan & Decision Support

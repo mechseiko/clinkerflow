@@ -13,7 +13,7 @@ export function LossTree() {
 
   return (
     <div className="space-y-6">
-      <DisclaimerBanner />
+      {/* <DisclaimerBanner /> */}
 
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -55,9 +55,8 @@ export function LossTree() {
                 <button
                   key={entry.lossIndex}
                   onClick={() => setSelectedLoss(entry)}
-                  className={`w-full flex items-center justify-between p-3.5 text-left transition-all ${
-                    isActive ? 'bg-industrial-blue/5 border-l-2 border-industrial-blue' : 'hover:bg-[#1A2035]/20'
-                  }`}
+                  className={`w-full flex items-center justify-between p-3.5 text-left transition-all ${isActive ? 'bg-industrial-blue/5 border-l-2 border-industrial-blue' : 'hover:bg-[#1A2035]/20'
+                    }`}
                 >
                   <div className="min-w-0 pr-2">
                     <span className="text-[9px] font-mono text-indigo-400 block uppercase tracking-wider font-bold">
@@ -93,7 +92,7 @@ export function LossTree() {
                     <span className="text-[9px] font-mono font-bold text-slate-500 uppercase">Stage Details</span>
                   </div>
                   <p className="text-xs text-slate-400 leading-relaxed">{selectedLoss.operationalExplanation}</p>
-                  
+
                   {/* Assumptions */}
                   {selectedLoss.assumptions && selectedLoss.assumptions.length > 0 && (
                     <div className="pt-2">

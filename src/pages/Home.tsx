@@ -17,48 +17,7 @@ export function Home() {
 
   return (
     <div className="space-y-6">
-      {/* Disclaimer at top */}
-      <DisclaimerBanner />
-
-      {/* Page Header */}
-      <div>
-        <h2 className="text-xl font-bold text-white">Executive Overview</h2>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Clinker-to-Cement Grinding and Dispatch Logistics Performance Framework
-        </p>
-      </div>
-
-      {/* Project Purpose Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="panel p-6 bg-gradient-to-br from-industrial-blue/10 to-transparent border-industrial-blue/30"
-      >
-        <div className="flex flex-col md:flex-row gap-6 items-start justify-between">
-          <div className="space-y-2 max-w-2xl">
-            <h3 className="text-base font-bold text-white">Digital Conversion Efficiency Framework</h3>
-            <p className="text-xs leading-relaxed text-slate-400">
-              This platform serves as the digital operational implementation of the clinker-to-cement conversion model. By establishing 13 sequential loss stages (q1–q13) across grinding, packing, and dispatch logistics, we identify the exact mechanical and operational root causes restricting dispatch throughput.
-            </p>
-          </div>
-          <div className="flex gap-3 shrink-0">
-            <Link
-              to="/documentation"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold bg-[#1A2035] border border-[#1E2536] text-slate-300 hover:text-white hover:border-slate-500 transition-all"
-            >
-              <BookOpen className="w-3.5 h-3.5" />
-              View Framework Docs
-            </Link>
-            <Link
-              to="/plant-flow"
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-semibold bg-industrial-blue text-white hover:bg-industrial-blue/90 transition-all shadow-[0_0_12px_rgba(14,165,233,0.3)]"
-            >
-              Examine Plant Flow
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </motion.div>
+      {/* <DisclaimerBanner /> */}
 
       {/* Efficiency Gauges & today's production */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -213,7 +172,7 @@ export function Home() {
             </ul>
           </div>
           <div className="border-t border-[#1E2536] pt-3 mt-4 text-[10px] text-slate-500 font-mono italic">
-            Developed by team Antigravity for the 2026 Engineering Challenge presentation module.
+            Developed by team Dynamo for the 2026 Dangote Cement University Engineering Challenge.
           </div>
         </div>
       </div>

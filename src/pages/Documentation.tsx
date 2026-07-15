@@ -17,7 +17,7 @@ export function Documentation() {
 
   return (
     <div className="space-y-6">
-      <DisclaimerBanner />
+      {/* <DisclaimerBanner /> */}
 
       {/* Header */}
       <div>
@@ -36,11 +36,10 @@ export function Documentation() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-t-lg transition-all ${
-                isActive
+              className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-t-lg transition-all ${isActive
                   ? 'text-industrial-blue border-b-2 border-industrial-blue'
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+                }`}
             >
               <Icon className="w-3.5 h-3.5" />
               {tab.label}
@@ -67,7 +66,7 @@ export function Documentation() {
               <p>
                 The platform is designed to shift operations away from simplistic runtime statistics towards an integrated <strong>mass and energy balance model</strong>, bridging data layers directly to maintenance work items.
               </p>
-              
+
               <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono pt-3">The DCP Grinding Challenge</h3>
               <p>
                 Grinding and packaging represent the physical bottlenecks of clinker dispatch. Traditional OEE limits tracking to major machines (the kiln or ball mill). ClinkerFlow maps every transition node, exposing vertical elevator bottlenecks, silo aeration restrictions, and bag rejection rates.

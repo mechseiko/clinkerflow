@@ -25,7 +25,7 @@ export function PlantFlow() {
 
   return (
     <div className="space-y-6">
-      <DisclaimerBanner />
+      {/* <DisclaimerBanner /> */}
 
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -51,7 +51,7 @@ export function PlantFlow() {
         </div>
 
         {/* Dynamic Detail Panel (always showing or placeholder) */}
-        <div className="panel flex flex-col justify-between h-full min-h-[500px]">
+        <div className="panel flex flex-col justify-between h-full md:sticky md:top-0 md:right-0 md:h-screen min-h-[500px]">
           <AnimatePresence mode="wait">
             {selectedStage ? (
               <motion.div
