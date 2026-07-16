@@ -118,8 +118,6 @@ export function RootCause() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
       {/* Header */}
       <div>
         <h2 className="text-xl font-bold text-white">Root Cause Explorer</h2>

@@ -1,9 +1,8 @@
 /**
  * CLINKERFLOW — Operational Action Tracker Items
  * ═══════════════════════════════════════════════════════════════════════════
- * All values are ILLUSTRATIVE engineering examples developed for the
- * Dangote Cement University Engineering Challenge 2026.
- * They do NOT represent actual Dangote Cement operational data.
+ * All values are ILLUSTRATIVE engineering examples based on the ClinkerFlow
+ * Group Capacity Model (55.00 Mta rated capacity).
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
@@ -12,10 +11,10 @@ import type { ActionItem } from '../types';
 export const actionItems: ActionItem[] = [
   {
     id: 'a1',
-    lossIndex: 'q10',
-    loss: 185,
+    lossIndex: 'Bucket 5',
+    loss: 0.80,
     lossDescription: 'ROTO-PACKER Line 3 bag feeder magazine jam at feeding throat.',
-    stage: 'Packaging',
+    stage: 'Packing Lines',
     owner: 'M. Ibrahim',
     department: 'Mechanical Maintenance',
     priority: 'Critical',
@@ -23,15 +22,15 @@ export const actionItems: ActionItem[] = [
     timeframe: 'Immediate',
     dueDate: 'Jul 09, 19:00',
     verificationMethod: 'Run 100 bag batch trial; verify gripper alignment and suction vacuum pressure.',
-    kpiAffected: 'Packer Line Availability, Packing TPD Output',
+    kpiAffected: 'Packer Line Availability, Packing Capacity (Mta)',
     notes: 'Suction cups replaced; guide rails cleaned. Awaiting final pneumatic system calibration.',
   },
   {
     id: 'a2',
-    lossIndex: 'q6',
-    loss: 100,
+    lossIndex: 'Bucket 3',
+    loss: 0.55,
     lossDescription: 'Separator rotor speed drop to 1,240 rpm vs 1,380 rpm setpoint.',
-    stage: 'Classifier',
+    stage: 'Grinding Circuit',
     owner: 'S. Balogun',
     department: 'Process Operations',
     priority: 'Critical',
@@ -44,10 +43,10 @@ export const actionItems: ActionItem[] = [
   },
   {
     id: 'a3',
-    lossIndex: 'q10',
-    loss: 72,
+    lossIndex: 'Bucket 5',
+    loss: 0.40,
     lossDescription: 'Compressor header pressure fluctuation below 5.8 bar on Packer Line 2.',
-    stage: 'Packaging',
+    stage: 'Packing Lines',
     owner: 'O. Nwosu',
     department: 'Electrical & Instrumentation',
     priority: 'High',
@@ -60,10 +59,10 @@ export const actionItems: ActionItem[] = [
   },
   {
     id: 'a4',
-    lossIndex: 'q9',
-    loss: 75,
+    lossIndex: 'Bucket 4',
+    loss: 0.40,
     lossDescription: 'Silo #3 Cell 4 aeration pad rupture restricting cement extraction.',
-    stage: 'Cement Silo',
+    stage: 'Cement Storage',
     owner: 'A. Adebayo',
     department: 'Maintenance & Instrumentation',
     priority: 'High',
@@ -76,10 +75,10 @@ export const actionItems: ActionItem[] = [
   },
   {
     id: 'a5',
-    lossIndex: 'q12',
-    loss: 52,
+    lossIndex: 'Bucket 6',
+    loss: 0.30,
     lossDescription: 'Weighbridge Bay 2 scale calibration deviation slowing dispatch cycles.',
-    stage: 'Dispatch',
+    stage: 'Dispatch & Logistics',
     owner: 'G. Okafor',
     department: 'Quality & Instrumentation',
     priority: 'Medium',
@@ -92,10 +91,10 @@ export const actionItems: ActionItem[] = [
   },
   {
     id: 'a6',
-    lossIndex: 'q10',
-    loss: 63,
+    lossIndex: 'Bucket 5',
+    loss: 0.35,
     lossDescription: 'ROTO-PACKER Line 4 spout liner wear causing 3.2% bag rejection rate.',
-    stage: 'Packaging',
+    stage: 'Packing Lines',
     owner: 'M. Ibrahim',
     department: 'Mechanical Maintenance',
     priority: 'Medium',
@@ -108,10 +107,10 @@ export const actionItems: ActionItem[] = [
   },
   {
     id: 'a7',
-    lossIndex: 'q13',
-    loss: 18,
+    lossIndex: 'Bucket 6',
+    loss: 0.10,
     lossDescription: 'Queue pre-positioning inactive; 18 trucks waiting in external truck park.',
-    stage: 'Logistics',
+    stage: 'Dispatch & Logistics',
     owner: 'J. Bello',
     department: 'Logistics Coordination',
     priority: 'Medium',

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Activity, TrendingUp, TrendingDown, BookOpen, AlertTriangle, ShieldAlert } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { todayKPIs } from '../data/kpiData';
-import { capacityChain, OVERALL_EFFICIENCY, ACTUAL_DISPATCHED } from '../data/frameworkData';
+import { capacityChain, OVERALL_EFFICIENCY, ACTUAL_DISPATCHED, THEORETICAL_CAPACITY, TOTAL_LOSS } from '../data/frameworkData';
 import { actionItems } from '../data/actionData';
 import { formatNumber, statusColor } from '../utils/formatters';
 import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
@@ -18,9 +18,7 @@ export function Home() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
-      {/* Efficiency Gauges & today's production */}
+      {/* Efficiency Gauges & production summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Overall Conversion Efficiency */}
         <div className="panel p-5 flex flex-col justify-between">
@@ -39,76 +37,76 @@ export function Home() {
               </div>
             </div>
             <div className="mt-4 text-center text-xs font-mono text-slate-500 flex items-center justify-center gap-1.5 flex-wrap">
-              Equation: <MathFormula math="\eta_{conv} = \dfrac{Q_{actual}}{Q_{th}}" className="text-industrial-blue" />
+              Equation: <MathFormula math="\eta_{conv} = \dfrac{Actual}{Design}" className="text-industrial-blue" />
             </div>
           </div>
 
           <div className="border-t border-[#1E2536] pt-3 text-[11px] text-slate-400 leading-normal flex items-start gap-2">
             <Activity className="w-3.5 h-3.5 text-industrial-green shrink-0 mt-0.5" />
-            <span>Target conversion efficiency: <strong>95.0%</strong>. Current shift deviation is <strong>-12.0%</strong> due to packing plant restrictions.</span>
+            <span>Target conversion efficiency: <strong>95.0%</strong>. Currently operating with a significant gap due to silo space constraints and packing bottlenecks.</span>
           </div>
         </div>
 
-        {/* Shift Production Summary */}
+        {/* Production Summary */}
         <div className="panel p-5 lg:col-span-2 flex flex-col justify-between">
           <div className="space-y-1 border-b border-[#1E2536] pb-3 flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Today's Shift Output</span>
-              <h4 className="text-sm font-semibold text-white">Illustrative Conversion Performance</h4>
+              <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider">Annualized Output</span>
+              <h4 className="text-sm font-semibold text-white">Group Level Metric Tracking</h4>
             </div>
-            <span className="text-[10px] font-mono text-slate-500">24-Hour Average</span>
+            <span className="text-[10px] font-mono text-slate-500">Live Aggregate</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 py-4">
             <div className="space-y-1.5 p-3 rounded-lg bg-[#080B12] border border-[#1E2536]">
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block font-mono">Theoretical Input</span>
-              <div className="text-xl font-bold font-mono text-slate-300">5,500 <span className="text-xs text-slate-500 font-normal">TPD</span></div>
-              <span className="text-[9px] text-slate-500 block leading-tight font-mono">Q_theoretical Capacity</span>
+              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block font-mono">Theoretical Capacity</span>
+              <div className="text-xl font-bold font-mono text-slate-300">{THEORETICAL_CAPACITY.toFixed(2)} <span className="text-xs text-slate-500 font-normal">Mta</span></div>
+              <span className="text-[9px] text-slate-500 block leading-tight font-mono">Design Maximum</span>
             </div>
             <div className="space-y-1.5 p-3 rounded-lg bg-[#080B12] border border-[#1E2536]">
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block font-mono">Actual Dispatch</span>
-              <div className="text-xl font-bold font-mono text-industrial-green">4,565 <span className="text-xs text-slate-500 font-normal">TPD</span></div>
-              <span className="text-[9px] text-slate-500 block leading-tight font-mono">Q_actual Dispatched</span>
+              <div className="text-xl font-bold font-mono text-industrial-green">{ACTUAL_DISPATCHED.toFixed(2)} <span className="text-xs text-slate-500 font-normal">Mta</span></div>
+              <span className="text-[9px] text-slate-500 block leading-tight font-mono">Cleared Final Volume</span>
             </div>
             <div className="space-y-1.5 p-3 rounded-lg bg-[#080B12] border border-[#1E2536]">
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block font-mono">Combined Loss</span>
-              <div className="text-xl font-bold font-mono text-red-400">−935 <span className="text-xs text-slate-500 font-normal">TPD</span></div>
-              <span className="text-[9px] text-slate-500 block leading-tight font-mono">Σq1..q13 Total</span>
+              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block font-mono">Identified Gap</span>
+              <div className="text-xl font-bold font-mono text-red-400">−{TOTAL_LOSS.toFixed(2)} <span className="text-xs text-slate-500 font-normal">Mta</span></div>
+              <span className="text-[9px] text-slate-500 block leading-tight font-mono">Σ Losses</span>
             </div>
           </div>
 
           {/* Mini Conversion Pathway Nodes */}
           <div>
             <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-2 block font-mono">
-              14-Stage Conversion Pathway Status
+              Group Loss Chain Pipeline
             </span>
-            <div className="grid grid-cols-7 sm:grid-cols-14 gap-1.5">
+            <div className="grid grid-cols-4 sm:grid-cols-9 gap-1.5">
               {capacityChain.map((node, i) => {
                 const isDesign = i === 0;
                 const isEnd = i === capacityChain.length - 1;
                 const loss = node.loss;
                 const statusBg = isDesign || isEnd
                   ? 'bg-industrial-blue'
-                  : loss > 150
+                  : loss > 10
                     ? 'bg-industrial-red animate-pulse'
-                    : loss > 10
+                    : loss > 1
                       ? 'bg-industrial-amber'
                       : 'bg-industrial-green';
 
                 return (
                   <div
                     key={node.stage}
-                    title={`${node.stage}: ${node.value} TPD (Loss: ${node.loss} TPD)`}
+                    title={`${node.stage}: ${node.value} Mta (Loss: ${node.loss} Mta)`}
                     className={`h-2 rounded ${statusBg}`}
                   />
                 );
               })}
             </div>
             <div className="flex justify-between text-[8px] text-slate-500 font-mono mt-1.5">
-              <span>Kiln Input</span>
-              <span>Grinding Circuit</span>
-              <span>Packing Plant</span>
-              <span>Gate Dispatch</span>
+              <span>Design Limit</span>
+              <span>Major Losses</span>
+              <span>Micro Stops</span>
+              <span>Actual Output</span>
             </div>
           </div>
         </div>
@@ -140,7 +138,7 @@ export function Home() {
                   <p className="text-xs text-slate-300 truncate font-medium">{alert.lossDescription}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="text-xs font-mono font-bold text-red-400 block">−{alert.loss} TPD</span>
+                  <span className="text-xs font-mono font-bold text-red-400 block">−{alert.loss} Mta</span>
                   <span className="text-[8px] text-slate-500 block font-mono">{alert.timeframe}</span>
                 </div>
               </div>
@@ -158,25 +156,26 @@ export function Home() {
           </div>
         </div>
 
-        {/* Competition objectives card */}
+        {/* Operational Overview card */}
         <div className="panel p-5 flex flex-col justify-between bg-[#0B1220]/20">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-indigo-400">
               <ShieldAlert className="w-4 h-4" />
-              <h4 className="text-xs font-bold font-mono uppercase tracking-wider">Evaluation Objectives</h4>
+              <h4 className="text-xs font-bold font-mono uppercase tracking-wider">Operational Overview</h4>
             </div>
-            <h3 className="text-sm font-semibold text-white mt-1">Platform Verification Focus</h3>
+            <h3 className="text-sm font-semibold text-white mt-1">Focus Areas</h3>
             <ul className="space-y-2 text-xs text-slate-400 pt-2 list-disc list-inside">
-              <li>Confirm 13 sequential loss parameters representing total conversion flow.</li>
-              <li>Examine formulas and variables for every grinding and logistics stage.</li>
-              <li>Verify the transition from abstract metrics to mechanical root causes.</li>
+              <li>Track downstream constraints creating upstream backpressure (Silo Space).</li>
+              <li>Monitor Supply Sufficiency Ratio (SSR) at high-speed packaging loops.</li>
+              <li>Identify and resolve dispatch bottlenecks through CMMS integration.</li>
             </ul>
           </div>
           <div className="border-t border-[#1E2536] pt-3 mt-4 text-[10px] text-slate-500 font-mono italic">
-            Developed by team Dynamo for the 2026 Dangote Cement University Engineering Challenge.
+            ClinkerFlow Live Operations Tracking and Diagnostic System.
           </div>
         </div>
       </div>
     </div>
   );
 }
+

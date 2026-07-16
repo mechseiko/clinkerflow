@@ -27,8 +27,6 @@ export function PlantFlow() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
@@ -104,7 +102,7 @@ export function PlantFlow() {
 
                 {/* Technical parameters */}
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Shift Parameters</span>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-mono">Stage Parameters</span>
                   <div className="space-y-1.5 divide-y divide-[#1E2536]/30">
                     {selectedStage.parameters.map((p) => {
                       const statusColor = p.status === 'critical' ? 'text-red-400' : p.status === 'warning' ? 'text-amber-400' : 'text-slate-300';
@@ -159,7 +157,7 @@ export function PlantFlow() {
           </AnimatePresence>
           <div className="p-4 border-t border-[#1E2536] bg-[#0A0D14] rounded-b-lg">
             <span className="text-[9px] font-mono text-slate-600 block text-center leading-normal">
-              Nodes reflect the physical conversion equipment defined in the DCP evaluation framework.
+              Nodes reflect the physical conversion equipment defined in the ClinkerFlow Group Capacity model.
             </span>
           </div>
         </div>

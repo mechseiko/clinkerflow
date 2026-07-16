@@ -141,7 +141,7 @@ export function Packaging() {
       rejectRate: 3.20,
       throughput: 1420,
       status: 'critical',
-      issue: 'Spout liner wear causing rejections (63 TPD loss equivalent)',
+      issue: 'Spout liner wear causing rejections (0.35 Mta loss equivalent)',
       nozzleTelemetry: [
         { nozzleId: 1, temp: 58, state: 'ok' },
         { nozzleId: 2, temp: 59, state: 'ok' },
@@ -337,35 +337,35 @@ export function Packaging() {
   // ─── 4. Stage Deficit Loss Roll-Up ───
   const lossItems = [
     {
-      index: 'q10',
-      name: 'Packaging deficit',
-      loss: 320,
-      formula: 'q10 = Q_in × R_reject + Q_line_loss',
-      desc: 'Line 3 downtime (-185 TPD) + Line 2 pressure drops (-72 TPD) + Line 4 rejections (-63 TPD)',
+      index: '5a',
+      name: 'Packer Line Downtime & Jams',
+      loss: 0.80,
+      formula: 'Loss = Q_line_capacity × T_downtime',
+      desc: 'Line 3 offline due to feeder throat jam.',
       severity: 'critical' as const,
     },
     {
-      index: 'q11',
-      name: 'Weighbridge calibration',
-      loss: 5,
-      formula: 'q11 = ΔW_truck × N_trucks',
-      desc: 'Bay 2 scale discrepancy (60kg/truck under-weighing discrepancy)',
+      index: '5b',
+      name: 'Rejection & Pressure Loss',
+      loss: 0.65,
+      formula: 'Loss = Q_in × R_reject + Q_pressure_drop',
+      desc: 'Line 4 spout liner wear and Line 2 compressor fluctuations.',
       severity: 'warning' as const,
     },
     {
-      index: 'q12',
-      name: 'Dispatch turnaround delays',
-      loss: 52,
-      formula: 'q12 = C_dispatch × (1 − η_dispatch)',
-      desc: '42 min turnaround time vs 30 min target (slowing dispatcher rate)',
+      index: '6a',
+      name: 'Dispatch Turnaround Delays',
+      loss: 0.75,
+      formula: 'Loss = C_dispatch × (1 − η_dispatch)',
+      desc: '42 min turnaround time vs 30 min target (slowing dispatcher rate).',
       severity: 'warning' as const,
     },
     {
-      index: 'q13',
-      name: 'Logistics coordination',
-      loss: 18,
-      formula: 'q13 = Fleet management allocation index',
-      desc: '18 trucks idle in external queue without pre-positioning protocol',
+      index: '6b',
+      name: 'Weighbridge & Logistics Congestion',
+      loss: 0.45,
+      formula: 'Loss = ΔW_truck × N_trucks + Queue_delays',
+      desc: 'Bay 2 scale discrepancy and external queue backlog.',
       severity: 'warning' as const,
     },
   ];
@@ -374,8 +374,6 @@ export function Packaging() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
       {/* Header Info Banner */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
@@ -384,9 +382,8 @@ export function Packaging() {
             Packaging & Dispatch Chain Monitoring
           </h2>
           <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-normal">
-            <span className="text-industrial-blue font-semibold">ClinkerFlow: Real-Time Monitoring</span> ·
-            A lightweight OEE monitoring layer over the Packing and Dispatch chain.
-            It surfaces downstream bottlenecks and exceptions before they cascade upstream and force kiln shut-ins.
+            <span className="text-industrial-blue font-semibold">Supply Sufficiency Ratio (SSR) Monitoring</span> ·
+            A lightweight monitoring layer over the Packing and Dispatch chain to track downstream bottlenecks and resolve exceptions before they cascade upstream.
           </p>
         </div>
       </div>
@@ -399,11 +396,11 @@ export function Packaging() {
               Chain Deficit Roll-Up
             </span>
             <div className="text-2xl font-bold font-mono text-red-400 mt-1.5">
-              −{totalDownstreamLoss} <span className="text-xs text-slate-500 font-normal">TPD</span>
+              −{totalDownstreamLoss.toFixed(2)} <span className="text-xs text-slate-500 font-normal">Mta</span>
             </div>
           </div>
           <span className="text-[9px] font-mono text-slate-500 pt-2 border-t border-[#1E2536] mt-2 block">
-            Packaging (q10) to Logistics (q13)
+            Buckets 5 & 6 (Packing & Logistics)
           </span>
         </div>
 
@@ -778,7 +775,7 @@ export function Packaging() {
         </div>
 
         <p className="text-xs text-slate-400 leading-normal max-w-3xl">
-          This bridge rolls up individual downstream stage OEE losses ($q_{10}$ to $q_{13}$) to output the net deviation against the clinker production target. These figures feed directly into the main <strong>Mta Loss Bridge</strong> for daily plant reviews.
+          This bridge rolls up individual downstream stage OEE losses to output the net deviation against the clinker production target. These figures feed directly into the main <strong>Master Loss Tree</strong> for daily plant reviews.
         </p>
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 pt-2">
@@ -790,7 +787,7 @@ export function Packaging() {
 
             <div className="space-y-4">
               {lossItems.map((item) => {
-                const percentage = Math.round((item.loss / 395) * 100);
+                const percentage = Math.round((item.loss / 2.65) * 100);
                 const barColor = item.severity === 'critical' ? 'bg-red-500' : 'bg-amber-500';
                 return (
                   <div key={item.index} className="space-y-1.5">
@@ -799,7 +796,7 @@ export function Packaging() {
                         <span className="text-industrial-blue">{item.index.toUpperCase()}</span> · {item.name}
                       </span>
                       <span className="text-red-400 font-bold">
-                        −{item.loss} TPD ({percentage}%)
+                        −{item.loss.toFixed(2)} Mta ({percentage}%)
                       </span>
                     </div>
 
@@ -826,10 +823,10 @@ export function Packaging() {
                 Total Downstream Deficit
               </span>
               <div className="text-3xl font-bold font-mono text-red-500">
-                −395 <span className="text-sm font-normal text-slate-500 font-sans">TPD</span>
+                −2.65 <span className="text-sm font-normal text-slate-500 font-sans">Mta</span>
               </div>
               <p className="text-xs text-slate-400 leading-normal">
-                This represents the combined daily capacity loss from packaging and dispatch inefficiency. Resolving Packer Line 3's jam restores <strong>185 TPD</strong> immediately, closing nearly half of the entire chain's loss gap.
+                This represents the combined annual capacity loss from packaging and dispatch inefficiency. Resolving Packer Line 3's jam restores <strong>0.80 Mta</strong> immediately, closing nearly a third of the downstream loss gap.
               </p>
             </div>
 

@@ -37,7 +37,7 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             <h3 className="font-bold text-white text-sm leading-snug">{rec.title}</h3>
           </div>
           <div className="text-right shrink-0">
-            <span className="text-sm font-mono font-bold text-emerald-400 block">+{rec.estimatedGain} TPD</span>
+            <span className="text-sm font-mono font-bold text-emerald-400 block">+{rec.estimatedGain.toFixed(2)} Mta</span>
             <span className="text-[9px] text-slate-500 font-mono block">Estimated Gain</span>
           </div>
         </div>
@@ -104,8 +104,6 @@ export function Recommendations() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
@@ -115,7 +113,7 @@ export function Recommendations() {
           </p>
         </div>
         <div className="panel px-4 py-2.5 text-right shrink-0">
-          <div className="text-xl font-bold text-emerald-400 font-mono">+{formatNumber(totalPotentialGain)} TPD</div>
+          <div className="text-xl font-bold text-emerald-400 font-mono">+{totalPotentialGain.toFixed(2)} Mta</div>
           <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block">Total Recovery Capacity</span>
         </div>
       </div>

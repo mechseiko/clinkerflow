@@ -75,8 +75,6 @@ export function ActionMatrix() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
@@ -144,7 +142,7 @@ export function ActionMatrix() {
 
       {/* Summary */}
       <div className="text-xs text-slate-500 font-mono">
-        Showing <span className="text-white font-medium">{filtered.length}</span> of {actionItems.length} actions · Active capacity shortfall: <span className="text-red-400 font-medium">−{formatNumber(activeLossTotal)} TPD</span>
+        Showing <span className="text-white font-medium">{filtered.length}</span> of {actionItems.length} actions · Active capacity shortfall: <span className="text-red-400 font-medium">−{activeLossTotal.toFixed(2)} Mta</span>
       </div>
 
       {/* Desktop Table view */}
@@ -157,7 +155,7 @@ export function ActionMatrix() {
                   { label: 'Loss Index', field: 'lossIndex' as SortField },
                   { label: 'Description', field: null },
                   { label: 'Stage', field: 'stage' as SortField },
-                  { label: 'TPD Shortfall', field: 'loss' as SortField },
+                  { label: 'Mta Shortfall', field: 'loss' as SortField },
                   { label: 'Ownership', field: 'owner' as SortField },
                   { label: 'Priority', field: 'priority' as SortField },
                   { label: 'Status', field: 'status' as SortField },
@@ -189,7 +187,7 @@ export function ActionMatrix() {
                   <td className="px-4 py-3 max-w-xs text-slate-200">{item.lossDescription}</td>
                   <td className="px-4 py-3 text-slate-400 whitespace-nowrap">{item.stage}</td>
                   <td className="px-4 py-3 font-mono whitespace-nowrap font-bold text-red-400">
-                    {item.status === 'Resolved' ? <span className="text-emerald-400">Resolved</span> : `−${formatNumber(item.loss)}`}
+                    {item.status === 'Resolved' ? <span className="text-emerald-400">Resolved</span> : `−${item.loss.toFixed(2)} Mta`}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="text-slate-300">{item.owner}</div>

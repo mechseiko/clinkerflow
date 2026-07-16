@@ -102,7 +102,8 @@ export function FormulaBlock({
       {exampleCalculation && (
         <div className="bg-[#0D121F]/50 rounded-lg p-3 border border-[#1E2536]/50 space-y-1">
           <span className="text-[9px] text-slate-500 uppercase font-semibold block">Example Shift Calculation</span>
-          <MathFormula math={toLatexExample(exampleCalculation)} className="text-xs text-slate-300 block font-mono" />
+          {/* <MathFormula math={toLatexExample(exampleCalculation)} className="text-xs text-slate-300 block font-mono" /> */}
+          <div className="text-xs text-slate-300 block font-mono">{exampleCalculation}</div>
         </div>
       )}
 

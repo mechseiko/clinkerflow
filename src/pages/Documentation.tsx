@@ -18,8 +18,6 @@ export function Documentation() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
       {/* Header */}
       <div>
         <h2 className="text-xl font-bold text-white">Framework & Documentation</h2>
@@ -62,15 +60,15 @@ export function Documentation() {
             >
               <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">Project Objective</h3>
               <p>
-                ClinkerFlow is a high-fidelity decision support tool built for the <strong>Dangote Cement University Engineering Challenge 2026</strong>.
+                ClinkerFlow is a high-fidelity decision support tool designed for operational visibility across the full clinker-to-dispatch conversion chain.
               </p>
               <p>
-                The platform is designed to shift operations away from simplistic runtime statistics towards an integrated <strong>mass and energy balance model</strong>, bridging data layers directly to maintenance work items.
+                The platform shifts operations away from simplistic runtime statistics towards an integrated <strong>mass and energy balance model</strong>, bridging data layers directly to maintenance work items.
               </p>
 
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono pt-3">The DCP Grinding Challenge</h3>
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono pt-3">The Packing Bottleneck Challenge</h3>
               <p>
-                Grinding and packaging represent the physical bottlenecks of clinker dispatch. Traditional OEE limits tracking to major machines (the kiln or ball mill). ClinkerFlow maps every transition node, exposing vertical elevator bottlenecks, silo aeration restrictions, and bag rejection rates.
+                Grinding, packaging, and dispatch represent the physical bottlenecks of clinker conversion. Traditional OEE limits tracking to major machines (the kiln or ball mill). ClinkerFlow maps every transition node through the <strong>Master Loss Tree</strong>, exposing vertical elevator bottlenecks, silo aeration restrictions, bag rejection rates, and dispatch turnaround delays — quantified in Mta against the Group's 55.00 Mta rated capacity.
               </p>
             </motion.div>
           )}
@@ -83,9 +81,9 @@ export function Documentation() {
               exit={{ opacity: 0, y: -5 }}
               className="space-y-4 text-xs text-slate-350"
             >
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">14-Stage Process Cascade</h3>
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">Conversion Chain Process Cascade</h3>
               <p className="leading-relaxed">
-                The conversion framework traces clinker production from calcination output through dispatch loading gate-out. Each stage is characterized by a specific volumetric transfer limits equation:
+                The conversion framework traces clinker production from calcination output through dispatch loading gate-out. Each stage is characterized by a specific volumetric transfer limits equation within the 7-bucket Master Loss Tree:
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
@@ -145,7 +143,7 @@ export function Documentation() {
               exit={{ opacity: 0, y: -5 }}
               className="space-y-4"
             >
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">DCP Operational Assumptions</h3>
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">ClinkerFlow Operating Assumptions</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
                   <thead>

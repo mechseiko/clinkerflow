@@ -13,19 +13,17 @@ export function LossTree() {
 
   return (
     <div className="space-y-6">
-      {/* <DisclaimerBanner /> */}
-
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h2 className="text-xl font-bold text-white">Loss Tree Waterfall</h2>
+          <h2 className="text-xl font-bold text-white">Master Loss Tree Waterfall</h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Sequential throughput capacity deficit breakdown (q1 – q13) from design capacity to net dispatched tonnage
+            Sequential throughput capacity deficit breakdown (Buckets 1 – 7) from design capacity to net dispatched tonnage
           </p>
         </div>
         <div className="text-right shrink-0">
-          <div className="text-2xl font-bold text-red-400 font-mono">−{formatNumber(totalLoss)} TPD</div>
-          <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Total Shift Capacity Lost</div>
+          <div className="text-2xl font-bold text-red-400 font-mono">−{formatNumber(totalLoss)} Mta</div>
+          <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Total Annual Capacity Lost</div>
         </div>
       </div>
 
@@ -33,7 +31,7 @@ export function LossTree() {
       <div className="panel">
         <div className="panel-header border-b border-[#1E2536] flex items-center justify-between">
           <span className="text-xs font-bold font-mono text-slate-500 uppercase">Process Stage Loss Impact</span>
-          <span className="text-[10px] text-slate-500">Design Capacity (5,500 TPD) → Actual Dispatch</span>
+          <span className="text-[10px] text-slate-500">Design Capacity (55.00 Mta) → Actual Dispatch</span>
         </div>
         <div className="p-4 h-64 md:h-72">
           <WaterfallChart data={waterfallData} />
@@ -45,7 +43,7 @@ export function LossTree() {
         {/* Accordion List */}
         <div className="panel lg:col-span-1 h-full max-h-[500px] overflow-y-auto">
           <div className="panel-header border-b border-[#1E2536] py-3 text-xs font-bold font-mono text-slate-500 uppercase">
-            Framework Loss Stages
+            Master Loss Buckets
           </div>
           <div className="divide-y divide-[#1E2536]/40">
             {lossData.map((entry) => {
@@ -60,7 +58,7 @@ export function LossTree() {
                 >
                   <div className="min-w-0 pr-2">
                     <span className="text-[9px] font-mono text-indigo-400 block uppercase tracking-wider font-bold">
-                      Stage {entry.lossIndex}
+                      {entry.lossIndex}
                     </span>
                     <span className="text-xs font-semibold text-slate-200 block truncate">{entry.stage}</span>
                   </div>
@@ -89,7 +87,7 @@ export function LossTree() {
                 <div className="panel p-4 space-y-2">
                   <div className="flex items-center justify-between border-b border-[#1E2536] pb-2">
                     <h3 className="text-sm font-bold text-white">Operational Description</h3>
-                    <span className="text-[9px] font-mono font-bold text-slate-500 uppercase">Stage Details</span>
+                    <span className="text-[9px] font-mono font-bold text-slate-500 uppercase">Bucket Details</span>
                   </div>
                   <p className="text-xs text-slate-400 leading-relaxed">{selectedLoss.operationalExplanation}</p>
 
@@ -97,7 +95,7 @@ export function LossTree() {
                   {selectedLoss.assumptions && selectedLoss.assumptions.length > 0 && (
                     <div className="pt-2">
                       <span className="text-[9px] text-slate-500 uppercase font-mono font-bold block mb-1">
-                        DCP Engineering Assumptions
+                        Group Standard Assumptions
                       </span>
                       <ul className="space-y-1 text-xs text-slate-400 pl-3 list-disc">
                         {selectedLoss.assumptions.map((as, i) => (
@@ -121,7 +119,7 @@ export function LossTree() {
             ) : (
               <div className="panel p-8 text-center flex flex-col items-center justify-center space-y-3 h-full">
                 <Calculator className="w-8 h-8 text-slate-700" />
-                <span className="text-xs text-slate-500 font-mono">Select a loss stage from the list to view its formulas and calculations.</span>
+                <span className="text-xs text-slate-500 font-mono">Select a loss bucket from the list to view its formulas and calculations.</span>
               </div>
             )}
           </AnimatePresence>
