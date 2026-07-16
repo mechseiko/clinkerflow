@@ -1,4 +1,6 @@
 import React from 'react';
+import { MathFormula } from './MathFormula';
+import { lossFormulas } from '../../data/frameworkData';
 
 interface FormulaBlockProps {
   index: string;
@@ -26,6 +28,22 @@ export function FormulaBlock({
   benchmarkRange,
   references,
 }: FormulaBlockProps) {
+  const latexFormula = lossFormulas.find((f) => f.index === index)?.formula || formula;
+
+  const toLatexExample = (ex: string) => {
+    return ex
+      .replace(/×/g, '\\times')
+      .replace(/−/g, '-')
+      .replace(/TPD/g, '\\text{ TPD}')
+      .replace(/≈/g, '\\approx')
+      .replace(/Δ/g, '\\Delta')
+      .replace(/η_cool/g, '\\eta_{cool}')
+      .replace(/η_mill/g, '\\eta_{mill}')
+      .replace(/η_sep/g, '\\eta_{sep}')
+      .replace(/η_elev/g, '\\eta_{elev}')
+      .replace(/η_dispatch/g, '\\eta_{dispatch}');
+  };
+
   return (
     <div className="bg-[#0A0D14] border border-[#1E2536] rounded-xl p-5 space-y-4">
       {/* Header */}
@@ -43,8 +61,8 @@ export function FormulaBlock({
       </div>
 
       {/* Formula Display */}
-      <div className="bg-[#080B12] border border-[#1E2536] rounded-lg py-4 px-6 flex items-center justify-center font-mono text-base md:text-lg text-white shadow-inner">
-        {formula}
+      <div className="bg-[#080B12] border border-[#1E2536] rounded-lg py-4 px-6 flex items-center justify-center font-mono text-base md:text-lg text-white shadow-inner min-h-[4rem]">
+        <MathFormula math={latexFormula} block={true} />
       </div>
 
       {/* Variables Table */}
@@ -84,7 +102,7 @@ export function FormulaBlock({
       {exampleCalculation && (
         <div className="bg-[#0D121F]/50 rounded-lg p-3 border border-[#1E2536]/50 space-y-1">
           <span className="text-[9px] text-slate-500 uppercase font-semibold block">Example Shift Calculation</span>
-          <code className="text-xs text-slate-300 font-mono block">{exampleCalculation}</code>
+          <MathFormula math={toLatexExample(exampleCalculation)} className="text-xs text-slate-300 block font-mono" />
         </div>
       )}
 

@@ -16,6 +16,8 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
+import { MathFormula } from '../components/ui/MathFormula';
+import { lossFormulas } from '../data/frameworkData';
 
 // Mock types/interfaces for this page
 interface PackerLine {
@@ -808,8 +810,8 @@ export function Packaging() {
                       />
                     </div>
 
-                    <span className="text-[10px] text-slate-500 font-mono block">
-                      Formula: <code className="text-[#10B981]">{item.formula}</code> · {item.desc}
+                    <span className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 flex-wrap">
+                      Formula: <MathFormula math={lossFormulas.find((lf) => lf.index === item.index)?.formula || item.formula} className="text-[#10B981]" /> · {item.desc}
                     </span>
                   </div>
                 );

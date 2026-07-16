@@ -6,6 +6,7 @@ import { capacityChain, OVERALL_EFFICIENCY, ACTUAL_DISPATCHED } from '../data/fr
 import { actionItems } from '../data/actionData';
 import { formatNumber, statusColor } from '../utils/formatters';
 import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
+import { MathFormula } from '../components/ui/MathFormula';
 
 export function Home() {
   const activeLosses = actionItems.filter((a) => a.status !== 'Resolved');
@@ -37,8 +38,8 @@ export function Home() {
                 <span className="block text-[9px] text-slate-500 font-mono mt-1">η_conv Rate</span>
               </div>
             </div>
-            <div className="mt-4 text-center text-xs font-mono text-slate-500">
-              Equation: <code className="text-industrial-blue">Q_actual / Q_th</code>
+            <div className="mt-4 text-center text-xs font-mono text-slate-500 flex items-center justify-center gap-1.5 flex-wrap">
+              Equation: <MathFormula math="\eta_{conv} = \dfrac{Q_{actual}}{Q_{th}}" className="text-industrial-blue" />
             </div>
           </div>
 

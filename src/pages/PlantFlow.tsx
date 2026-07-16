@@ -6,6 +6,8 @@ import { plantStages } from '../data/plantData';
 import { statusColor, formatNumber } from '../utils/formatters';
 import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
 import { PlantFlowVisualization } from '../components/plant/PlantFlowVisualization';
+import { MathFormula } from '../components/ui/MathFormula';
+import { lossFormulas } from '../data/frameworkData';
 
 export function PlantFlow() {
   const [selectedStage, setSelectedStage] = useState<PlantStage | null>(null);
@@ -70,8 +72,12 @@ export function PlantFlow() {
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-white">{selectedStage.name}</h3>
-                  <div className="text-[10px] text-slate-500 font-mono">
-                    Model: <code className="text-industrial-blue">{selectedStage.formulaRef}</code>
+                  <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 flex-wrap">
+                    Model: <MathFormula math={
+                      selectedStage.relatedLossIndex && selectedStage.relatedLossIndex !== '—'
+                        ? (lossFormulas.find((lf) => lf.index === selectedStage.relatedLossIndex)?.formula || selectedStage.formulaRef)
+                        : (selectedStage.id === 'kiln' ? 'Q_{kln} = m_{feed} \\times (1 - \\text{LOI}) / 1{,}000' : selectedStage.formulaRef)
+                    } className="text-industrial-blue" />
                   </div>
                 </div>
 
