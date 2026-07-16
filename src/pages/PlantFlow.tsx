@@ -59,7 +59,7 @@ export function PlantFlow() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="p-5 space-y-5 flex-1 overflow-y-auto"
+                className="p-5 space-y-5 flex-1 overflow-y-auto overscroll-contain"
               >
                 {/* Header */}
                 <div className="border-b border-[#1E2536] pb-3 space-y-1">

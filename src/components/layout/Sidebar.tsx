@@ -61,10 +61,16 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
 
   const SidebarContent = ({ isDesktop }: { isDesktop: boolean }) => (
     <>
-      {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-5 border-b border-[#1E2536]">
         <div className="w-8 h-8 shrink-0 rounded-lg bg-industrial-blue/10 border border-industrial-blue/30 flex items-center justify-center">
-          <Cpu className="w-4 h-4 text-industrial-blue" />
+          <svg className="w-4 h-4 text-industrial-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 21h18" />
+            <path d="M5 21V8l7 3V8l7 3v10" />
+            <path d="M9 15h2" />
+            <path d="M13 15h2" />
+            <circle cx="12" cy="4" r="1.5" />
+            <path d="M12 5.5v1.5" />
+          </svg>
         </div>
         <AnimatePresence>
           {(!isDesktop || !collapsed) && (

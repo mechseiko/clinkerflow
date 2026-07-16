@@ -13,7 +13,8 @@ import {
   RefreshCw,
   TrendingDown,
   Layers,
-  ArrowRight
+  ArrowRight,
+  X
 } from 'lucide-react';
 import { DisclaimerBanner } from '../components/ui/DisclaimerBanner';
 import { MathFormula } from '../components/ui/MathFormula';
@@ -61,6 +62,8 @@ interface GateLog {
 }
 
 export function Packaging() {
+  const [selectedNozzle, setSelectedNozzle] = useState<{ lineName: string; nozzleId: number; temp: number; state: string } | null>(null);
+
   // ─── 1. Packer Lines State ───
   const [packerLines, setPackerLines] = useState<PackerLine[]>([
     {
@@ -550,7 +553,8 @@ export function Packaging() {
                         <div
                           key={n.nozzleId}
                           title={`Nozzle ${n.nozzleId}: ${n.temp}°C [${n.state.toUpperCase()}]`}
-                          className="flex flex-col items-center justify-center p-1.5 bg-[#080B12] rounded border border-[#1E2536] hover:border-slate-600 transition-colors cursor-help"
+                          onClick={() => setSelectedNozzle({ lineName: line.name, nozzleId: n.nozzleId, temp: n.temp, state: n.state })}
+                          className="flex flex-col items-center justify-center p-1.5 bg-[#080B12] rounded border border-[#1E2536] hover:border-slate-600 transition-colors cursor-pointer"
                         >
                           <div className={`w-2.5 h-2.5 rounded-full ${dotBg}`} />
                           <span className="text-[8px] font-mono text-slate-500 mt-1 font-bold">N{n.nozzleId}</span>
@@ -713,7 +717,7 @@ export function Packaging() {
                 Recent RFID Dispatch activity logs
               </span>
 
-              <div className="space-y-2 max-h-[220px] md:max-h-[400px] overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-[220px] md:max-h-[400px] overflow-y-auto overscroll-contain pr-1">
                 <AnimatePresence initial={false}>
                   {gateLogs.map((log) => {
                     const isWarning = log.status === 'warning';
@@ -849,6 +853,54 @@ export function Packaging() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedNozzle && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+            <div className="absolute inset-0" onClick={() => setSelectedNozzle(null)} />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="bg-[#0F1320] border border-[#1E2536] rounded-xl p-5 max-w-sm w-full shadow-2xl relative z-10"
+            >
+              <button
+                onClick={() => setSelectedNozzle(null)}
+                className="absolute top-4 right-4 p-1.5 rounded-lg bg-[#1A2035] border border-[#1E2536] text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="space-y-4">
+                <div className="border-b border-[#1E2536] pb-2">
+                  <span className="text-[9px] font-mono font-bold text-slate-500 uppercase">{selectedNozzle.lineName}</span>
+                  <h4 className="text-sm font-bold text-white mt-0.5">Nozzle {selectedNozzle.nozzleId} Status</h4>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 rounded bg-[#080B12] border border-[#1E2536]">
+                    <span className="text-[9px] font-mono text-slate-500 block uppercase">Temperature</span>
+                    <span className="text-base font-bold font-mono text-slate-200 mt-1 block">{selectedNozzle.temp}°C</span>
+                  </div>
+
+                  <div className="p-3 rounded bg-[#080B12] border border-[#1E2536]">
+                    <span className="text-[9px] font-mono text-slate-500 block uppercase">State</span>
+                    <span className={`text-xs font-bold font-mono mt-1 block uppercase ${selectedNozzle.state === 'jammed' ? 'text-red-400' :
+                      selectedNozzle.state === 'idle' ? 'text-slate-400' : 'text-green-400'
+                      }`}>
+                      {selectedNozzle.state}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="text-[10px] text-slate-500 font-mono leading-relaxed bg-[#1A2035]/20 p-2.5 rounded border border-[#1E2536]/40">
+                  Telemetry state monitored in real-time. Action should be initiated if nozzle state shows warning or jammed.
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

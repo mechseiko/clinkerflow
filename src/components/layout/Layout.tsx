@@ -20,7 +20,7 @@ export function Layout() {
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Topbar onMobileOpen={() => setMobileOpen(true)} />
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden overscroll-y-contain">
           <div className="p-3 sm:p-4 md:p-6">
             <Outlet />
           </div>

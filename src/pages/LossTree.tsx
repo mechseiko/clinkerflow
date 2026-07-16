@@ -40,8 +40,7 @@ export function LossTree() {
 
       {/* Two-column layout: Loss List & Formula detail */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Accordion List */}
-        <div className="panel lg:col-span-1 h-full max-h-[500px] overflow-y-auto">
+        <div className="panel lg:col-span-1 h-full max-h-[500px] overflow-y-auto overscroll-contain">
           <div className="panel-header border-b border-[#1E2536] py-3 text-xs font-bold font-mono text-slate-500 uppercase">
             Master Loss Buckets
           </div>
